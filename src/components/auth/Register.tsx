@@ -1,9 +1,18 @@
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import {registerUser} from '../../appwrite/auth';
-
+import registerScreenImage from '../../assets/images/auth/registerScreen.png';
+import {Image, ScrollView} from 'react-native';
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Register'>;
 };
@@ -12,56 +21,151 @@ const Register: React.FC<RegisterScreenProps> = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [inputFocus, setInputFocus] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
+
+  const handleFocus = (inputName: string) => {
+    setInputFocus(prevFocus => ({
+      ...prevFocus,
+      [inputName]: true,
+    }));
+  };
+
+  const handleBlur = (inputName: string) => {
+    setInputFocus(prevFocus => ({
+      ...prevFocus,
+      [inputName]: false,
+    }));
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>Register</Text>
-      <TextInput
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button
-        title="Register"
-        onPress={() => registerUser({email, password, name}, navigation)}
-      />
-      <Button
-        title="Go to Login"
-        onPress={() => navigation.navigate('Login')}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <Image source={registerScreenImage} style={styles.image} />
+        <View style={styles.form}>
+          <TextInput
+            onFocus={() => handleFocus('name')}
+            onBlur={() => handleBlur('name')}
+            style={[styles.input, inputFocus.name && styles.inputFocused]}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+            placeholderTextColor={'#8a8a8a'}
+          />
+          <TextInput
+            onFocus={() => handleFocus('email')}
+            onBlur={() => handleBlur('email')}
+            style={[styles.input, inputFocus.email && styles.inputFocused]}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor={'#8a8a8a'}
+          />
+          <TextInput
+            onFocus={() => handleFocus('password')}
+            onBlur={() => handleBlur('password')}
+            style={[styles.input, inputFocus.password && styles.inputFocused]}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            placeholderTextColor={'#8a8a8a'}
+          />
+          <Text style={styles.text}>
+            By Registering, you're agree to our Terms & Conditions and Privacy
+            Policy.
+          </Text>
+          <View style={styles.button}>
+            <Button
+              title="Register"
+              color={'rgb(108, 0, 255)'}
+              onPress={() => registerUser({email, password, name}, navigation)}
+            />
+          </View>
+        </View>
+        <View style={styles.footer}>
+          <Text style={styles.textColor}>Already a member?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.LinkText}>Login Now</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default Register;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 10,
-    justifyContent: 'center',
+  text: {
+    fontSize: 12,
+    marginHorizontal: 15,
+    color: 'black',
+  },
+  button: {
+    borderRadius: 8,
+    overflow: 'hidden',
+    elevation: 5,
+  },
+  container: {},
+  image: {
+    height: 250,
+    width: 250,
+    alignSelf: 'center',
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
+    borderColor: '#e6e6e6',
     paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    fontSize: 15,
+    elevation: 3,
+    color: 'black',
+  },
+  form: {
+    gap: 20,
+    marginHorizontal: 20,
+  },
+  inputFocused: {
+    borderColor: 'blue',
+    elevation: 5,
+  },
+  // lines: {
+  //   height: 0.5,
+  //   width: 100,
+  //   backgroundColor: 'black',
+  // },
+  // orContainer: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   gap: 10,
+  // },
+  // guestContainer: {
+  //   marginHorizontal: 20,
+  //   borderRadius: 8,
+  //   overflow: 'hidden',
+  //   elevation: 5,
+  // },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 5,
+    marginTop: 40,
+  },
+  // forgetPasswordContainer: {
+  //   alignItems: 'flex-end',
+  // },
+  LinkText: {
+    color: 'blue',
+  },
+  textColor: {
+    color: 'black',
   },
 });

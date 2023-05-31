@@ -1,18 +1,35 @@
+//react
 import React, {useEffect, useState} from 'react';
-import Home from './components/Home';
+//react-native
+// import {StyleSheet} from 'react-native';
+//react-navigation
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Text, View} from 'react-native';
+import 'react-native-gesture-handler';
+
+//pages (authenticated users)
+import Home from './components/Home';
+import Create from './components/Create';
 import Manage from './components/Manage';
 import Notification from './components/Notification';
-import Create from './components/Create';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+//pages (non-authenticated users)
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+
+//appwrite
 import {account} from './appwrite/config';
 
+//images
+
+import IconComponent from './components/IconComponent';
+import ForgotPassword from './components/auth/ForgotPassword';
+import SplashScreen from 'react-native-splash-screen';
+import {Image} from 'react-native';
+
+//Param Types of Components
 export type RootStackParamList = {
   //pages (authenticated users)
   Home: undefined;
@@ -22,28 +39,15 @@ export type RootStackParamList = {
   //pages (non-authenticated users)
   Login: undefined;
   Register: undefined;
+  ForgotPassword: undefined;
 };
 
+//Stack and Tab Navigator Component
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-type IconProps = {
-  iconName: string;
-  color: string;
-  size: number;
-};
-
-const IconComponent = ({iconName, color, size}: IconProps) => {
-  // Use the data prop in the child component
-  return (
-    <View>
-      <Icon name={iconName} color={color} size={size} />
-    </View>
-  );
-};
-
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const checkLoginStatus = async () => {
@@ -61,12 +65,16 @@ const App = () => {
     // Check user's login status
 
     checkLoginStatus();
-  }, [isAuthenticated]);
+
+    if (!isLoading) {
+      SplashScreen.hide();
+    }
+  }, [isAuthenticated, isLoading]);
 
   return (
     <NavigationContainer>
       {isLoading ? (
-        <Text>Loading</Text>
+        <Image source={require('./assets/images/splashScreen.png')} />
       ) : isAuthenticated ? (
         <Tab.Navigator
           initialRouteName="Home"
@@ -85,8 +93,11 @@ const App = () => {
               }
               return IconComponent({iconName: iconName!, color, size});
             },
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveBackgroundColor: '#E6E6FA',
+            tabBarActiveTintColor: 'rgb(108, 0, 255)',
             tabBarInactiveTintColor: 'gray',
+            tabBarShowLabel: false,
+            headerShown: false,
           })}>
           <Tab.Screen name="Home">
             {props => (
@@ -98,13 +109,23 @@ const App = () => {
           <Tab.Screen name="Notification" component={Notification} />
         </Tab.Navigator>
       ) : (
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login">
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            animation: 'slide_from_right',
+            headerTransparent: true,
+          }}>
+          <Stack.Screen name="Login" options={{title: ''}}>
             {props => (
               <Login {...props} setIsAuthenticated={setIsAuthenticated} />
             )}
           </Stack.Screen>
-          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{title: ''}}
+          />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

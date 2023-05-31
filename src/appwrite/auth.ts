@@ -25,7 +25,7 @@ export const registerUser = async (
 
 export const loginUser = async (
   {email, password}: loginUserAccount,
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>,
 ) => {
   try {
     const user = await account.createEmailSession(email, password);
@@ -41,11 +41,26 @@ export const loginUser = async (
 };
 
 export const logOutUser = async (
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>,
 ) => {
   try {
     await account.deleteSession('current');
     setIsAuthenticated(false);
+  } catch (error) {
+    Snackbar.show({
+      text: String((error as Error).message),
+      duration: Snackbar.LENGTH_SHORT,
+    });
+    console.log('Appwrite service :: loginUser :: ' + error);
+  }
+};
+
+export const guestLogin = async (
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>,
+) => {
+  try {
+    await account.createAnonymousSession();
+    setIsAuthenticated(true);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),

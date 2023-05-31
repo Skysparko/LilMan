@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-splash-screen')
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("io.appwrite:sdk-for-android:1.1.0")
