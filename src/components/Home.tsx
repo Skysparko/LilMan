@@ -35,7 +35,7 @@ type UserDataType = {
   status: boolean;
 };
 
-const Home = ({setIsAuthenticated, navigation}: HomeScreenProps) => {
+const Home = ({navigation, setIsAuthenticated}: HomeScreenProps) => {
   const [user, setUser] = useState<UserDataType | null>(null);
   const [isActivePage, setIsActivePage] = useState('My Task');
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
@@ -48,38 +48,37 @@ const Home = ({setIsAuthenticated, navigation}: HomeScreenProps) => {
   }, []);
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.header}>
-        <View style={styles.headerTitleContainer}>
-          <Text style={[styles.text, styles.headerTitle]}>Home</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <Icon
-              name="person-circle"
-              color={'black'}
-              size={35}
-              onPress={() => {
-                setIsVisibleDropDown(true);
-                console.log('yo');
-              }}
-            />
-          </TouchableOpacity>
-
-          <DropdownMenu
-            isVisible={isVisibleDropDown}
-            setIsVisible={setIsVisibleDropDown}
-          />
-        </View>
-      </View>
       <ScrollView>
         <View style={styles.container}>
-          <View>
-            <Text style={[styles.text, styles.title]}>
-              Hello {user?.name ? user.name : 'Guest'}!
-            </Text>
-            <Text style={[styles.text, styles.description]}>
-              Have a nice day.
-            </Text>
+          <View style={styles.header}>
+            <View>
+              <Text style={[styles.text, styles.title]}>
+                Hello {user?.name ? user.name : 'Guest'}!
+              </Text>
+              <Text style={[styles.text, styles.description]}>
+                Have a nice day.
+              </Text>
+            </View>
+
+            <View style={styles.user}>
+              <TouchableOpacity>
+                <Icon
+                  name="person-circle"
+                  color={'black'}
+                  size={40}
+                  onPress={() => {
+                    setIsVisibleDropDown(true);
+                    console.log('yo');
+                  }}
+                />
+              </TouchableOpacity>
+
+              <DropdownMenu
+                setIsAuthenticated={setIsAuthenticated}
+                isVisible={isVisibleDropDown}
+                setIsVisible={setIsVisibleDropDown}
+              />
+            </View>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -159,6 +158,9 @@ const Home = ({setIsAuthenticated, navigation}: HomeScreenProps) => {
 export default Home;
 
 const styles = StyleSheet.create({
+  user: {
+    paddingVertical: 5,
+  },
   headerTitleContainer: {
     justifyContent: 'center',
     alignContent: 'center',
@@ -169,7 +171,6 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     height: '100%',
-    borderWidth: 1,
   },
   emptyContent: {
     alignItems: 'center',
@@ -217,11 +218,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   header: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: 'white',
-    elevation: 5,
+    flexDirection: 'row',
   },
 });

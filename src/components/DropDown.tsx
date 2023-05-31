@@ -7,13 +7,16 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native';
+import {logOutUser} from '../appwrite/auth';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>;
 };
 
-const DropdownMenu = ({isVisible, setIsVisible}: Props) => {
+const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
   const handleOptionSelect = (option: string) => {
     // Perform actions based on the selected option
     console.log('Selected option:', option);
@@ -32,17 +35,20 @@ const DropdownMenu = ({isVisible, setIsVisible}: Props) => {
           <TouchableOpacity
             style={styles.option}
             onPress={() => handleOptionSelect('Option 1')}>
-            <Text style={styles.optionText}>Option 1</Text>
+            <Icon name="person-circle-outline" color={'black'} size={25} />
+            <Text style={styles.optionText}>Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.option}
             onPress={() => handleOptionSelect('Option 2')}>
-            <Text style={styles.optionText}>Option 2</Text>
+            <Icon name="help-circle-outline" color={'black'} size={25} />
+            <Text style={styles.optionText}>Help</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.option}
-            onPress={() => handleOptionSelect('Option 3')}>
-            <Text style={styles.optionText}>Option 3</Text>
+            onPress={() => logOutUser(setIsAuthenticated)}>
+            <Icon name="log-out-outline" color={'black'} size={23} />
+            <Text style={styles.optionText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -77,11 +83,20 @@ const styles = StyleSheet.create({
     right: 20,
     backgroundColor: 'white',
     borderRadius: 10,
-    padding: 10,
+    marginTop: 25,
     elevation: 5,
   },
+
   option: {
+    flexDirection: 'row',
+    gap: 5,
+
+    alignItems: 'center',
     paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderColor: 'gray',
+    paddingRight: 40,
+    paddingLeft: 10,
   },
   optionText: {
     fontSize: 16,
