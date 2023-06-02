@@ -112,6 +112,7 @@ const Home = ({navigation, setIsAuthenticated}: HomeScreenProps) => {
           {isActivePage === 'My Task' && (
             <View style={styles.emptyContent}>
               <Text style={[styles.text]}>You do not have any tasks yet.</Text>
+
               <View style={styles.button}>
                 <Button
                   title="+  Create"
