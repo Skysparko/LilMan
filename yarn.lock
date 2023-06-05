@@ -1464,6 +1464,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-native-async-storage/async-storage@^1.18.1":
+  version "1.18.1"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.18.1.tgz#b1aea4f07fb1dba3325b857b770671517ddab221"
+  integrity sha512-70aFW8fVCKl+oA1AKPFDpE6s4t9pulj2QeLX+MabEmzfT3urd/3cckv45WJvtocdoIH/oXA3Y+YcCRJCcNa8mA==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native-community/cli-clean@^10.1.1":
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-10.1.1.tgz#4c73ce93a63a24d70c0089d4025daac8184ff504"
@@ -2264,6 +2271,20 @@ asap@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==
+
+assign-deep@^0.4.5:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/assign-deep/-/assign-deep-0.4.8.tgz#92089f55f7b55872b1828d9c51f860427f08bae6"
+  integrity sha512-uxqXJCnNZDEjPnsaLKVzmh/ST5+Pqoz0wi06HDfHKx1ASNpSbbvz2qW2Gl8ZyHwr5jnm11X2S5eMQaP1lMZmCg==
+  dependencies:
+    assign-symbols "^0.1.1"
+    is-primitive "^2.0.0"
+    kind-of "^5.0.2"
+
+assign-symbols@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-0.1.1.tgz#cb025944ef4ec8a3693f086e9e112c74e3a0fed9"
+  integrity sha512-gwzH8QS/GV4pQsf6XOrlpBC6aDE8uJeZvymbEJ0W9TuDYqYOZc4RodvKDH98HCc+KFPYil1kD2XT0X0JWeOzQg==
 
 assign-symbols@^1.0.0:
   version "1.0.0"
@@ -4219,12 +4240,22 @@ is-path-inside@^3.0.3:
   resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-3.0.3.tgz#d231362e53a07ff2b0e0ea7fed049161ffd16283"
   integrity sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==
 
+is-plain-obj@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
+  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
+
 is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
   integrity sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==
   dependencies:
     isobject "^3.0.1"
+
+is-primitive@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/is-primitive/-/is-primitive-2.0.0.tgz#207bab91638499c07b2adf240a41a87210034575"
+  integrity sha512-N3w1tFaRfk3UrPfqeRyD+GYDASU3W5VinKhlORy8EWVf/sIdDL9GAcew85XmktCfH+ngG7SRXEVDoO18WMdB/Q==
 
 is-regex@^1.1.4:
   version "1.1.4"
@@ -4906,7 +4937,7 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
-kind-of@^5.0.0:
+kind-of@^5.0.0, kind-of@^5.0.2:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
   integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
@@ -5057,6 +5088,13 @@ memoize-one@^5.0.0, memoize-one@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
+
+merge-options@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
+  integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
+  dependencies:
+    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -6003,6 +6041,26 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-animatable@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+  integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+  dependencies:
+    prop-types "^15.7.2"
+
+react-native-app-intro-slider@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.4.tgz#fa5cda7057db62c448ac975ffd2ba0cff94cc8d8"
+  integrity sha512-Zkjaol6X3BbZkHUpVDj2LjdidpS6rCgKi0fx80xgGKa0pHxBRd4swWTv2bHnnvu5k1/HXwYk0mY2TbK+2jHl5w==
+
+react-native-app-intro@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro/-/react-native-app-intro-1.1.5.tgz#34a2d2265b2d654d31bae743c404856c37448692"
+  integrity sha512-Uta8ip3hQr215xbbScAGXHeoCplCw6PI4dm37LdHfxRWqWnMUVkZubd3/NVuHmTYZyKPGVRVKCdDSixUHW1YBA==
+  dependencies:
+    assign-deep "^0.4.5"
+    react-native-swiper "git+https://github.com/FuYaoDe/react-native-swiper.git"
+
 react-native-calendars@^1.1298.0:
   version "1.1298.0"
   resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1298.0.tgz#f3e4b4c18b451657505f702ea01dc43b3a849dce"
@@ -6035,6 +6093,11 @@ react-native-datepicker@^1.7.2:
   dependencies:
     moment "^2.22.0"
 
+react-native-fast-image@^8.6.3:
+  version "8.6.3"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz#6edc3f9190092a909d636d93eecbcc54a8822255"
+  integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
+
 react-native-gesture-handler@^2.10.1:
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.10.1.tgz#ca5f0f09bfa8d0560f492fc599fa64a64dcdd231"
@@ -6064,6 +6127,11 @@ react-native-paper@^5.8.0:
     "@callstack/react-theme-provider" "^3.0.8"
     color "^3.1.2"
     use-latest-callback "^0.1.5"
+
+react-native-pulse-loader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-pulse-loader/-/react-native-pulse-loader-1.0.3.tgz#7aa76ecec0ad31465ba448c9341fcfe35082bfee"
+  integrity sha512-rbpszeD2IGhpd5/oztomDIL/Ty+OXXNnNQc5n6eqW2VrUJSHaHozG3lC8X+QxxoOdCntZh73Z9X92fIguorPPw==
 
 react-native-push-notification@^8.1.1:
   version "8.1.1"
@@ -6114,6 +6182,19 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
+
+react-native-swiper@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.6.0.tgz#59fdbdf95addee49630312f27077622c27776819"
+  integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
+  dependencies:
+    prop-types "^15.5.10"
+
+"react-native-swiper@git+https://github.com/FuYaoDe/react-native-swiper.git":
+  version "1.4.4"
+  resolved "git+https://github.com/FuYaoDe/react-native-swiper.git#a6417ff41a8b2d490bdcc4541015ab35736d4595"
+  dependencies:
+    react-timer-mixin "^0.13.3"
 
 react-native-vector-icons@^9.2.0:
   version "9.2.0"
@@ -6184,6 +6265,11 @@ react-test-renderer@18.2.0:
     react-is "^18.2.0"
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
+
+react-timer-mixin@^0.13.3:
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
+  integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
 
 react@18.2.0:
   version "18.2.0"

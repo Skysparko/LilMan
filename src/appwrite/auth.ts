@@ -1,10 +1,11 @@
 import {ID} from 'appwrite';
 import {loginUserAccount, registerUserAccount} from './types';
-import {account} from './config';
+// import {account} from './config';
 import Snackbar from 'react-native-snackbar';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../App';
 import React from 'react';
+import {account} from './config';
 
 export const registerUser = async (
   {email, password, name}: registerUserAccount,
@@ -28,7 +29,9 @@ export const loginUser = async (
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>,
 ) => {
   try {
+    console.log(email, password);
     const user = await account.createEmailSession(email, password);
+
     setIsAuthenticated(true);
     return user;
   } catch (error) {
@@ -51,7 +54,7 @@ export const logOutUser = async (
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
-    console.log('Appwrite service :: loginUser :: ' + error);
+    console.log('Appwrite service :: logoutUser :: ' + error);
   }
 };
 
@@ -59,13 +62,14 @@ export const guestLogin = async (
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>,
 ) => {
   try {
-    await account.createAnonymousSession();
+    const res = await account.createAnonymousSession();
+    console.log(res);
     setIsAuthenticated(true);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
-    console.log('Appwrite service :: loginUser :: ' + error);
+    console.log('Appwrite service :: guestLogin :: ' + error);
   }
 };

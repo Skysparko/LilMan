@@ -7,26 +7,42 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
+import {createTask} from '../appwrite/db';
+import {getUserData} from '../appwrite/user';
+import {UserDataType} from '../appwrite/types';
+import {RootStackParamList} from '../App';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-const Create = () => {
-  const [taskName, setTaskName] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [selectedDate, setSelectedDate] = useState(new Date());
+type CreateScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Create'>;
+  setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Create = ({setRefreshData}: CreateScreenProps) => {
+  const [user, setUser] = useState<UserDataType | null>(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [date, setSelectedDate] = useState(new Date());
   const [startTime, setStartTime] = useState({
-    hours: selectedDate.getHours(),
-    minutes: selectedDate.getMinutes(),
+    hours: date.getHours(),
+    minutes: date.getMinutes(),
   });
   const [endTime, setEndTime] = useState({
-    hours: selectedDate.getHours(),
-    minutes: selectedDate.getMinutes(),
+    hours: date.getHours(),
+    minutes: date.getMinutes(),
   });
   const [showDateMenu, setShowDateMenu] = useState(false);
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
-  console.log(showDateMenu);
+
+  useEffect(() => {
+    getUserData(setUser);
+  }, []);
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView>
@@ -45,8 +61,8 @@ const Create = () => {
                 <TextInput
                   placeholder="Enter your task name"
                   placeholderTextColor={'#cccccc'}
-                  value={taskName}
-                  onChangeText={setTaskName}
+                  value={name}
+                  onChangeText={setName}
                   style={styles.input}
                 />
               </View>
@@ -58,18 +74,18 @@ const Create = () => {
                     setShowDateMenu(true);
                     console.log('open');
                   }}>
-                  {selectedDate.toLocaleDateString()}
+                  {date.toLocaleDateString()}
                 </Text>
 
                 {showDateMenu ? (
                   <DateTimePicker
-                    value={selectedDate}
+                    value={date}
                     mode="date"
                     display="default"
-                    onChange={(yo, date) => {
+                    onChange={(yo, data) => {
                       setShowDateMenu(false);
-                      if (date !== undefined) {
-                        setSelectedDate(date);
+                      if (data !== undefined) {
+                        setSelectedDate(data);
                       }
                     }}
                   />
@@ -93,14 +109,14 @@ const Create = () => {
 
               {showStartTime ? (
                 <DateTimePicker
-                  value={selectedDate}
+                  value={date}
                   mode="time"
                   display="default"
-                  onChange={(yo, date) => {
+                  onChange={(yo, data) => {
                     setShowStartTime(false);
                     setStartTime({
-                      hours: date!?.getHours(),
-                      minutes: date!?.getMinutes(),
+                      hours: data!?.getHours(),
+                      minutes: data!?.getMinutes(),
                     });
                   }}
                 />
@@ -120,14 +136,14 @@ const Create = () => {
 
               {showEndTime && (
                 <DateTimePicker
-                  value={selectedDate}
+                  value={date}
                   mode="time"
                   display="default"
-                  onChange={(yo, date) => {
+                  onChange={(yo, data) => {
                     setShowEndTime(false);
                     setEndTime({
-                      hours: date!?.getHours(),
-                      minutes: date!?.getMinutes(),
+                      hours: data!?.getHours(),
+                      minutes: data!?.getMinutes(),
                     });
                   }}
                 />
@@ -142,8 +158,8 @@ const Create = () => {
               multiline
               textAlignVertical="top"
               numberOfLines={3}
-              value={taskDescription}
-              onChangeText={setTaskDescription}
+              value={description}
+              onChangeText={setDescription}
               style={[styles.input, styles.darkText]}
             />
           </View>
@@ -152,13 +168,30 @@ const Create = () => {
             <TextInput
               placeholder="Enter your task category"
               placeholderTextColor={'gray'}
-              value={taskDescription}
-              onChangeText={setTaskDescription}
+              value={category}
+              onChangeText={setCategory}
               style={[styles.input, styles.darkText]}
             />
           </View>
           <View style={styles.button}>
-            <Button title="Create Task" color={'rgb(108, 0, 255)'} />
+            <Button
+              title="Create Task"
+              color={'rgb(108, 0, 255)'}
+              onPress={() => {
+                createTask(
+                  {
+                    name,
+                    description,
+                    category,
+                    date: date.toLocaleDateString(),
+                    endTime: endTime.hours + ' : ' + endTime.minutes,
+                    startTime: startTime.hours + ' : ' + startTime.minutes,
+                    userID: user?.$id!,
+                  },
+                  setRefreshData,
+                );
+              }}
+            />
           </View>
         </View>
       </ScrollView>
@@ -176,7 +209,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     overflow: 'hidden',
-    elevation: 10,
+    elevation: 5,
     width: 150,
   },
   category: {
@@ -202,11 +235,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#5900d1',
   },
   blendText: {
-    color: 'rgb(108, 0, 255)',
+    color: '#5900d1',
   },
   leftCircle: {
     position: 'absolute',
     bottom: 0,
+
     borderTopRightRadius: 150,
     height: 150,
     width: 150,
