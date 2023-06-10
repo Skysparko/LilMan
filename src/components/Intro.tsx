@@ -127,10 +127,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: 'white',
   },
   description: {
     textAlign: 'center',
     paddingHorizontal: 40,
+    color: 'white',
+    fontSize: 16,
   },
   visualContent: {
     width: 350,

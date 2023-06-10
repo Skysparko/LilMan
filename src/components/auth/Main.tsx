@@ -15,8 +15,10 @@ type Props = {
 const Main = ({navigation}: Props) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.imageContainer}>
-        <LinearGradient colors={['#954aff', '#6102e3']}>
+      <View>
+        <LinearGradient
+          colors={['#954aff', '#6102e3']}
+          style={styles.imageContainer}>
           <View style={styles.rightCircle}>
             <Text style={styles.blendText}>o</Text>
           </View>
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   leftCircle: {
     position: 'absolute',
     bottom: 0,
-
+    left: 0,
     borderTopRightRadius: 150,
     height: 150,
     width: 150,
@@ -107,6 +109,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     backgroundColor: '#954aff',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonCircle: {
     width: 40,

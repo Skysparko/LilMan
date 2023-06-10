@@ -64,6 +64,8 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [showResetPage, setShowResetPage] = useState(false);
+
   useEffect(() => {
     // Check user's login status
 
@@ -173,13 +175,14 @@ const App = () => {
           screenOptions={{
             animation: 'slide_from_right',
             headerTransparent: true,
+            title: '',
           }}>
-          <Stack.Screen name="Main" options={{title: ''}}>
+          <Stack.Screen name="Main">
             {props => (
               <Main {...props} setIsAuthenticated={setIsAuthenticated} />
             )}
           </Stack.Screen>
-          <Stack.Screen name="Login" options={{title: ''}}>
+          <Stack.Screen name="Login">
             {props => (
               <Login {...props} setIsAuthenticated={setIsAuthenticated} />
             )}
@@ -190,6 +193,9 @@ const App = () => {
             options={{title: ''}}
           />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          {showResetPage && (
+            <Stack.Screen name="reset-password" component={ForgotPassword} />
+          )}
         </Stack.Navigator>
       )}
     </NavigationContainer>

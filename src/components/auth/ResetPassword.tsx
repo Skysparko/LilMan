@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import mainImage from '../../assets/images/auth/forgot-password.png';
-import {forgotPassword} from '../../appwrite/auth';
+import {resetPassword} from '../../appwrite/auth';
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const [email, setEmail] = useState('');
 
@@ -41,7 +41,7 @@ const ForgotPassword = () => {
               // style={styles.input}
             />
             <View style={styles.button}>
-              <Button title="Submit" onPress={forgotPassword} />
+              <Button title="Submit" onPress={resetPassword} />
             </View>
           </View>
         </View>
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   imageContainer: {

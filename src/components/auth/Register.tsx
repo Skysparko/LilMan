@@ -11,7 +11,7 @@ import React, {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import {registerUser} from '../../appwrite/auth';
-import registerScreenImage from '../../assets/images/auth/registerScreen.png';
+import registerScreenImage from '../../assets/images/auth/register.png';
 import {Image, ScrollView} from 'react-native';
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Register'>;

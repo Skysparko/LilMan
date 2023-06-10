@@ -12,7 +12,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 
 import {guestLogin, loginUser} from '../../appwrite/auth';
-import loginScreenImage from '../../assets/images/auth/loginScreen.png';
+import loginScreenImage from '../../assets/images/auth/login.png';
 import {Text} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScrollView} from 'react-native';
@@ -133,10 +133,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   container: {
-    marginVertical: 30,
+    marginVertical: 10,
   },
   image: {
-    height: 200,
+    height: 250,
     width: 200,
     alignSelf: 'center',
   },
