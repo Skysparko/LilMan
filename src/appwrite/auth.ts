@@ -79,7 +79,7 @@ export const forgotPassword = async () => {
   try {
     const res = await account.createRecovery(
       'shubhamrakhecha5@gmail.com',
-      'lilman://lilman.com',
+      'https://lilman-reset-password.netlify.com',
     );
 
     console.log(res);

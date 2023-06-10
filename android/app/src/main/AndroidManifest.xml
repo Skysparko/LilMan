@@ -33,7 +33,7 @@
 
     <data android:scheme="lilman" />
 
-    <data android:host="lilman.com" />
+    <data android:host="home" />
 </intent-filter>
       </activity>
     </application>
