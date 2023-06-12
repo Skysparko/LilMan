@@ -6,7 +6,6 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../App';
 import React from 'react';
 import {account} from './config';
-import {Linking} from 'react-native';
 
 export const registerUser = async (
   {email, password, name}: registerUserAccount,
@@ -79,21 +78,10 @@ export const forgotPassword = async () => {
   try {
     const res = await account.createRecovery(
       'shubhamrakhecha5@gmail.com',
-      'https://lilman-reset-password.netlify.com',
+      'https://lilman-reset-password.netlify.app',
     );
 
     console.log(res);
-  } catch (error) {
-    Snackbar.show({
-      text: String((error as Error).message),
-      duration: Snackbar.LENGTH_SHORT,
-    });
-    console.log('Appwrite service :: forgotPassword :: ' + error);
-  }
-};
-
-export const resetPassword = async () => {
-  try {
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),

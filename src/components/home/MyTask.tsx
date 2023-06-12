@@ -1,24 +1,38 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Button} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import {Models} from 'appwrite';
-import LinearGradient from 'react-native-linear-gradient';
-// import Icon from 'react-native-vector-icons/Ionicons';
+
+import CatScrollMenu from '../CatScrollMenu';
+import TaskCard from '../TaskCard';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
   showMyTaskData: boolean | null;
   myTaskData: Models.Document[] | undefined;
+  // setTasks: React.Dispatch<React.SetStateAction<Models.Document[] | undefined>>;
+  setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MyTask = ({navigation, showMyTaskData, myTaskData}: Props) => {
+const MyTask = ({
+  navigation,
+  showMyTaskData,
+  myTaskData,
+  setRefreshData,
+}: Props) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('');
   useEffect(() => {
     showMyTaskData !== null && setIsLoading(false);
-  }, [showMyTaskData]);
-  console.log(showMyTaskData);
+    if (myTaskData?.length !== 0) {
+      setSelectedCategory(
+        myTaskData?.filter(task => task.category)[0].category,
+      );
+    }
+  }, [showMyTaskData, myTaskData]);
+
   return (
     <View>
       {isLoading ? (
@@ -27,33 +41,15 @@ const MyTask = ({navigation, showMyTaskData, myTaskData}: Props) => {
         </View>
       ) : showMyTaskData ? (
         <View>
-          <ScrollView horizontal>
-            {myTaskData?.map((task, key) => (
-              <LinearGradient
-                key={key}
-                colors={['#7512fc', '#6102e3']}
-                style={styles.catScrollContainer}>
-                <View style={styles.rightCircle}>
-                  <Text style={styles.blendText}>o</Text>
-                </View>
-                <View style={styles.leftCircle}>
-                  <Text style={styles.blendText}>o</Text>
-                </View>
-                <Text style={[styles.lightText, styles.title]}>
-                  {task.category}
-                </Text>
-              </LinearGradient>
-            ))}
-          </ScrollView>
-          <View style={styles.mainContainer}>
-            <Text style={[styles.darkText, styles.title]}>Tasks</Text>
-
-            {myTaskData?.map((task, key) => (
-              <View key={key} style={styles.taskContainer}>
-                <Text style={styles.darkText}>{task.name}</Text>
-              </View>
-            ))}
-          </View>
+          <CatScrollMenu
+            myTaskData={myTaskData}
+            setSelectedCategory={setSelectedCategory}
+          />
+          <TaskCard
+            myTaskData={myTaskData}
+            selectedCategory={selectedCategory}
+            setRefreshData={setRefreshData}
+          />
         </View>
       ) : (
         <View style={styles.emptyContent}>

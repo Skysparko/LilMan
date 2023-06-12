@@ -1,5 +1,4 @@
 import {
-  Button,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -18,6 +17,8 @@ import MyTask from './MyTask';
 
 import {Models} from 'appwrite';
 import {UserDataType} from '../../appwrite/types';
+import ProgressTask from './ProgressTask';
+import CompletedTask from './CompletedTask';
 
 type HomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
@@ -25,26 +26,38 @@ type HomeScreenProps = {
   user: UserDataType | null;
   tasks: Models.Document[];
   totalTasks: number;
+  setTasks: React.Dispatch<React.SetStateAction<Models.Document[] | undefined>>;
+  setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Home = ({
+  setTasks,
   navigation,
   setIsAuthenticated,
   user,
-
   tasks,
+  setRefreshData,
 }: HomeScreenProps) => {
   const [isActivePage, setIsActivePage] = useState('My Task');
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
+  //my Task
   const [showMyTaskData, setShowMyTaskData] = useState<boolean | null>(null);
   const [myTaskData, setMyTaskData] = useState<Models.Document[]>();
 
+  const [inProgressTaskData, setInProgressTaskData] =
+    useState<Models.Document[]>();
+
+  const [completedTaskData, setCompletedTaskData] =
+    useState<Models.Document[]>();
+  console.log(tasks);
   useEffect(() => {
     myTaskData?.length === 0
       ? setShowMyTaskData(false)
       : setShowMyTaskData(true);
     setMyTaskData(tasks);
-  }, [myTaskData, tasks]);
+    setInProgressTaskData(tasks?.filter(task => task.status === 'progress'));
+    setCompletedTaskData(tasks?.filter(task => task.status === 'completed'));
+  }, [myTaskData, tasks, setTasks, setRefreshData]);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -114,35 +127,24 @@ const Home = ({
               navigation={navigation}
               showMyTaskData={showMyTaskData}
               myTaskData={myTaskData}
+              setRefreshData={setRefreshData}
             />
           )}
           {isActivePage === 'In-progress' && (
-            <View style={styles.emptyContent}>
-              <Text style={[styles.text]}>
-                You do not have any in-progress tasks yet.
-              </Text>
-              <View style={styles.button}>
-                <Button
-                  title="+  Create"
-                  color={'rgb(108, 0, 255)'}
-                  onPress={() => navigation.navigate('Create')}
-                />
-              </View>
-            </View>
+            <ProgressTask
+              navigation={navigation}
+              showMyTaskData={inProgressTaskData?.length === 0 ? false : true}
+              myTaskData={inProgressTaskData}
+              setRefreshData={setRefreshData}
+            />
           )}
           {isActivePage === 'Completed' && (
-            <View style={styles.emptyContent}>
-              <Text style={[styles.text]}>
-                You do not have any completed tasks yet.
-              </Text>
-              <View style={styles.button}>
-                <Button
-                  title="+  Create"
-                  color={'rgb(108, 0, 255)'}
-                  onPress={() => navigation.navigate('Create')}
-                />
-              </View>
-            </View>
+            <CompletedTask
+              navigation={navigation}
+              showMyTaskData={completedTaskData?.length === 0 ? false : true}
+              myTaskData={completedTaskData}
+              setRefreshData={setRefreshData}
+            />
           )}
         </View>
       </ScrollView>

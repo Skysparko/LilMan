@@ -74,7 +74,7 @@ const Create = ({setRefreshData}: CreateScreenProps) => {
                     setShowDateMenu(true);
                     console.log('open');
                   }}>
-                  {date.toLocaleDateString()}
+                  {date.toISOString().split('T')[0]}
                 </Text>
 
                 {showDateMenu ? (
@@ -183,10 +183,11 @@ const Create = ({setRefreshData}: CreateScreenProps) => {
                     name,
                     description,
                     category,
-                    date: date.toLocaleDateString(),
+                    date: date.toISOString().split('T')[0],
                     endTime: endTime.hours + ' : ' + endTime.minutes,
                     startTime: startTime.hours + ' : ' + startTime.minutes,
                     userID: user?.$id!,
+                    status: 'created',
                   },
                   setRefreshData,
                 );

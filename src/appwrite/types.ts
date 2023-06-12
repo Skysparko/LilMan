@@ -17,6 +17,7 @@ export interface taskType {
   startTime: string;
   endTime: string;
   category: string;
+  status: 'created' | 'progress' | 'completed' | 'failed';
 }
 
 export interface UserDataType {

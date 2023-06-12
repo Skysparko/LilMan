@@ -13,7 +13,6 @@ import 'react-native-gesture-handler';
 import Home from './components/home/Home';
 import Create from './components/Create';
 import Manage from './components/Manage';
-import Notification from './components/Notification';
 
 //pages (non-authenticated users)
 import Login from './components/auth/Login';
@@ -42,7 +41,6 @@ export type RootStackParamList = {
   Home: undefined;
   Create: undefined;
   Manage: undefined;
-  Notification: undefined;
   //pages (non-authenticated users)
   Login: undefined;
   Register: undefined;
@@ -64,8 +62,6 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [showResetPage, setShowResetPage] = useState(false);
-
   useEffect(() => {
     // Check user's login status
 
@@ -76,9 +72,9 @@ const App = () => {
           getUserTasks(res.$id).then(data => {
             setTasks(data?.documents!);
             setTotalTasks(data?.total!);
+            setRefreshData(false); // Reset refreshData after fetching
+            console.log('refreshing user data');
           });
-          setRefreshData(false); // Reset refreshData after fetching
-          console.log('refreshing user data');
         }
         setUser(res);
         setIsAuthenticated(true);
@@ -137,8 +133,6 @@ const App = () => {
                 iconName = focused ? 'calendar' : 'calendar-outline';
               } else if (route.name === 'Create') {
                 iconName = focused ? 'create' : 'create-outline';
-              } else if (route.name === 'Notification') {
-                iconName = focused ? 'notifications' : 'notifications-outline';
               }
               return IconComponent({iconName: iconName!, color, size});
             },
@@ -152,6 +146,8 @@ const App = () => {
             {props => (
               <Home
                 {...props}
+                setRefreshData={setRefreshData}
+                setTasks={setTasks}
                 setIsAuthenticated={setIsAuthenticated}
                 user={user}
                 tasks={tasks!}
@@ -165,7 +161,6 @@ const App = () => {
           <Tab.Screen name="Create">
             {props => <Create {...props} setRefreshData={setRefreshData} />}
           </Tab.Screen>
-          <Tab.Screen name="Notification">{() => <Notification />}</Tab.Screen>
         </Tab.Navigator>
       ) : showIntro ? (
         <IntroScreen setShowIntro={setShowIntro} />
@@ -193,9 +188,6 @@ const App = () => {
             options={{title: ''}}
           />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          {showResetPage && (
-            <Stack.Screen name="reset-password" component={ForgotPassword} />
-          )}
         </Stack.Navigator>
       )}
     </NavigationContainer>

@@ -38,7 +38,6 @@ const ForgotPassword = () => {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-              // style={styles.input}
             />
             <View style={styles.button}>
               <Button title="Submit" onPress={forgotPassword} />
