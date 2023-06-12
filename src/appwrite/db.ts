@@ -27,6 +27,7 @@ export async function createTask(
       });
     } else {
       const date = new Date();
+      const todayDate = new Date().toISOString().split('T')[0];
 
       const startHour = Number(task.startTime.split(':')[0]);
       const startMinute = Number(task.startTime.split(':')[1]);
@@ -59,22 +60,23 @@ export async function createTask(
         });
         return;
       }
-
-      if (startHour < date.getHours()) {
-        Snackbar.show({
-          text: 'Start time must be after current time',
-          duration: Snackbar.LENGTH_SHORT,
-        });
-        return;
-      }
-
-      if (startHour === date.getHours()) {
-        if (startMinute < date.getMinutes()) {
+      if (todayDate === task.date) {
+        if (startHour < date.getHours()) {
           Snackbar.show({
             text: 'Start time must be after current time',
             duration: Snackbar.LENGTH_SHORT,
           });
           return;
+        }
+
+        if (startHour === date.getHours()) {
+          if (startMinute < date.getMinutes()) {
+            Snackbar.show({
+              text: 'Start time must be after current time',
+              duration: Snackbar.LENGTH_SHORT,
+            });
+            return;
+          }
         }
       }
 

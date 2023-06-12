@@ -156,7 +156,17 @@ const App = () => {
             )}
           </Tab.Screen>
           <Tab.Screen name="Manage">
-            {props => <Manage {...props} />}
+            {props => (
+              <Manage
+                {...props}
+                setRefreshData={setRefreshData}
+                setTasks={setTasks}
+                setIsAuthenticated={setIsAuthenticated}
+                user={user}
+                tasks={tasks!}
+                totalTasks={totalTasks}
+              />
+            )}
           </Tab.Screen>
           <Tab.Screen name="Create">
             {props => <Create {...props} setRefreshData={setRefreshData} />}
