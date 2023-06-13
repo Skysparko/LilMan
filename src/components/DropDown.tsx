@@ -17,12 +17,12 @@ type Props = {
 };
 
 const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
-  const handleOptionSelect = (option: string) => {
-    // Perform actions based on the selected option
-    console.log('Selected option:', option);
-    // Hide the dropdown
-    setIsVisible(false);
-  };
+  // const handleOptionSelect = (option: string) => {
+  //   // Perform actions based on the selected option
+  //   console.log('Selected option:', option);
+  //   // Hide the dropdown
+  //   setIsVisible(false);
+  // };
 
   return (
     <View style={styles.container}>
@@ -32,7 +32,7 @@ const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
         </TouchableWithoutFeedback>
 
         <View style={styles.dropdown}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.option}
             onPress={() => handleOptionSelect('Option 1')}>
             <Icon name="person-circle-outline" color={'black'} size={25} />
@@ -43,7 +43,7 @@ const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
             onPress={() => handleOptionSelect('Option 2')}>
             <Icon name="help-circle-outline" color={'black'} size={25} />
             <Text style={styles.optionText}>Help</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.option}
             onPress={() => logOutUser(setIsAuthenticated)}>

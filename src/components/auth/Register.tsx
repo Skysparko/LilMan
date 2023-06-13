@@ -18,6 +18,7 @@ type RegisterScreenProps = {
 };
 
 const Register: React.FC<RegisterScreenProps> = ({navigation}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -81,11 +82,21 @@ const Register: React.FC<RegisterScreenProps> = ({navigation}) => {
             Policy.
           </Text>
           <View style={styles.button}>
-            <Button
-              title="Register"
-              color={'rgb(108, 0, 255)'}
-              onPress={() => registerUser({email, password, name}, navigation)}
-            />
+            {isLoading ? (
+              <Button title="Registering..." color={'rgb(108, 0, 255)'} />
+            ) : (
+              <Button
+                title="Register"
+                color={'rgb(108, 0, 255)'}
+                onPress={() =>
+                  registerUser(
+                    {email, password, name},
+                    navigation,
+                    setIsLoading,
+                  )
+                }
+              />
+            )}
           </View>
         </View>
         <View style={styles.footer}>

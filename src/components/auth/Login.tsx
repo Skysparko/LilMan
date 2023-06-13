@@ -27,6 +27,9 @@ const Login: React.FC<LoginScreenProps> = ({
   setIsAuthenticated,
 }) => {
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
+
   const [password, setPassword] = useState('');
   const [inputFocus, setInputFocus] = useState({
     email: false,
@@ -79,11 +82,17 @@ const Login: React.FC<LoginScreenProps> = ({
             <Text style={styles.LinkText}>Forgot Password?</Text>
           </TouchableOpacity>
           <View style={styles.button}>
-            <Button
-              title="Login"
-              color={'rgb(108, 0, 255)'}
-              onPress={() => loginUser({email, password}, setIsAuthenticated)}
-            />
+            {isLoading ? (
+              <Button title="LoggingIn..." color={'rgb(108, 0, 255)'} />
+            ) : (
+              <Button
+                title="Login"
+                color={'rgb(108, 0, 255)'}
+                onPress={() =>
+                  loginUser({email, password}, setIsAuthenticated, setIsLoading)
+                }
+              />
+            )}
           </View>
         </View>
         <View style={styles.orContainer}>
@@ -102,11 +111,15 @@ const Login: React.FC<LoginScreenProps> = ({
           />
         </View>
         <View style={styles.guestContainer}>
-          <Button
-            color={'rgb(0, 108, 255)'}
-            title="Guest login"
-            onPress={() => guestLogin(setIsAuthenticated)}
-          />
+          {isGuestLoading ? (
+            <Button color={'rgb(0, 108, 255)'} title="Guest LoggingIn ...." />
+          ) : (
+            <Button
+              color={'rgb(0, 108, 255)'}
+              title="Guest login"
+              onPress={() => guestLogin(setIsAuthenticated, setIsGuestLoading)}
+            />
+          )}
         </View>
         <View style={styles.footer}>
           <Text>Not a member?</Text>

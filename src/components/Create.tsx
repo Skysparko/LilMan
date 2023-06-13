@@ -21,7 +21,7 @@ type CreateScreenProps = {
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Create = ({setRefreshData}: CreateScreenProps) => {
+const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
   const [user, setUser] = useState<UserDataType | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -38,6 +38,7 @@ const Create = ({setRefreshData}: CreateScreenProps) => {
   const [showDateMenu, setShowDateMenu] = useState(false);
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUserData(setUser);
@@ -174,25 +175,31 @@ const Create = ({setRefreshData}: CreateScreenProps) => {
             />
           </View>
           <View style={styles.button}>
-            <Button
-              title="Create Task"
-              color={'rgb(108, 0, 255)'}
-              onPress={() => {
-                createTask(
-                  {
-                    name,
-                    description,
-                    category,
-                    date: date.toISOString().split('T')[0],
-                    endTime: endTime.hours + ' : ' + endTime.minutes,
-                    startTime: startTime.hours + ' : ' + startTime.minutes,
-                    userID: user?.$id!,
-                    status: 'created',
-                  },
-                  setRefreshData,
-                );
-              }}
-            />
+            {isLoading ? (
+              <Button title="Creating..." color={'rgb(108, 0, 255)'} />
+            ) : (
+              <Button
+                title="Create Task"
+                color={'rgb(108, 0, 255)'}
+                onPress={() => {
+                  createTask(
+                    {
+                      name,
+                      description,
+                      category,
+                      date: date.toISOString().split('T')[0],
+                      endTime: endTime.hours + ' : ' + endTime.minutes,
+                      startTime: startTime.hours + ' : ' + startTime.minutes,
+                      userID: user?.$id!,
+                      status: 'created',
+                    },
+                    setRefreshData,
+                    setIsLoading,
+                    navigation,
+                  );
+                }}
+              />
+            )}
           </View>
         </View>
       </ScrollView>
@@ -257,7 +264,7 @@ const styles = StyleSheet.create({
   },
   lowerContainer: {
     backgroundColor: 'white',
-    height: '100%',
+    flex: 1,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: 40,

@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -33,6 +39,8 @@ const Manage = ({
 
   const [tasksData, setTasksData] = useState<Models.Document[]>();
   const [showTasks, setShowTasks] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const [events, setEvents] = useState<{
     [date: string]: {
@@ -87,7 +95,9 @@ const Manage = ({
 
       <View style={styles.container}>
         <Text style={[styles.title, styles.text]}>Tasks</Text>
-
+        <Text style={styles.description}>
+          Click on any date to get its tasks.
+        </Text>
         {showTasks ? (
           <View style={styles.mainContainer}>
             {tasksData?.map(
@@ -95,7 +105,13 @@ const Manage = ({
                 task.date === selectedDate && (
                   <View key={key} style={styles.taskContainer}>
                     <View style={styles.info}>
-                      {task.status === 'completed' && (
+                      {isLoading && (
+                        <ActivityIndicator
+                          color={'white'}
+                          style={styles.progress}
+                        />
+                      )}
+                      {task.status === 'completed' && isLoading === false && (
                         <TouchableOpacity>
                           <Icon
                             name="checkmark-sharp"
@@ -104,13 +120,14 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'created' && (
+                      {task.status === 'created' && isLoading === false && (
                         <TouchableOpacity
                           onPress={() =>
                             updateTasksStatus(
                               task.$id,
                               'progress',
                               setRefreshData,
+                              setIsLoading,
                             )
                           }>
                           <Icon
@@ -120,13 +137,14 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'progress' && (
+                      {task.status === 'progress' && isLoading === false && (
                         <TouchableOpacity
                           onPress={() =>
                             updateTasksStatus(
                               task.$id,
                               'completed',
                               setRefreshData,
+                              setIsLoading,
                             )
                           }>
                           <Icon
@@ -136,7 +154,7 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'failed' && (
+                      {task.status === 'failed' && isLoading === false && (
                         <TouchableOpacity>
                           <Icon
                             name="md-close"
@@ -151,14 +169,27 @@ const Manage = ({
                         <Text>{task.description}</Text>
                       </View>
                       <View style={styles.actionButtons}>
-                        <TouchableOpacity
-                          onPress={() => deleteTask(task.$id, setRefreshData)}>
-                          <Icon
-                            name="trash-outline"
+                        {isDeleteLoading ? (
+                          <ActivityIndicator
                             color={'white'}
                             style={styles.delete}
                           />
-                        </TouchableOpacity>
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() =>
+                              deleteTask(
+                                task.$id,
+                                setRefreshData,
+                                setIsDeleteLoading,
+                              )
+                            }>
+                            <Icon
+                              name="trash-outline"
+                              color={'white'}
+                              style={styles.delete}
+                            />
+                          </TouchableOpacity>
+                        )}
                         {/* <TouchableOpacity>
                         <Icon
                           name="md-pencil"
@@ -200,6 +231,10 @@ const Manage = ({
 export default Manage;
 
 const styles = StyleSheet.create({
+  description: {
+    marginLeft: 10,
+    marginVertical: 5,
+  },
   mainContainer: {
     height: '100%',
   },

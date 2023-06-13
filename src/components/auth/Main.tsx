@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: '#5900d1',
+    height: '60%',
   },
   container: {
     backgroundColor: 'white',
@@ -105,11 +106,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    height: '50%',
+    height: '80%',
   },
   imageContainer: {
     backgroundColor: '#954aff',
-    borderWidth: 1,
+
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -1,5 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {Models} from 'appwrite';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {deleteTask, updateTasksStatus} from '../appwrite/db';
@@ -16,16 +22,23 @@ const TaskCard = ({
   // setTasks,
   setRefreshData,
 }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   return (
     <View style={styles.mainContainer}>
       <Text style={[styles.darkText, styles.title]}>Tasks</Text>
-
+      <Text style={styles.description}>
+        You can click on Task icon to change its status until completed.
+      </Text>
       {myTaskData?.map(
         (task, key) =>
           task.category === selectedCategory && (
             <View key={key} style={styles.taskContainer}>
               <View style={styles.info}>
-                {task.status === 'completed' && (
+                {isLoading && (
+                  <ActivityIndicator style={styles.progress} color={'white'} />
+                )}
+                {task.status === 'completed' && isLoading === false && (
                   <TouchableOpacity>
                     <Icon
                       name="checkmark-sharp"
@@ -34,18 +47,28 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
-                {task.status === 'created' && (
+                {task.status === 'created' && isLoading === false && (
                   <TouchableOpacity
                     onPress={() =>
-                      updateTasksStatus(task.$id, 'progress', setRefreshData)
+                      updateTasksStatus(
+                        task.$id,
+                        'progress',
+                        setRefreshData,
+                        setIsLoading,
+                      )
                     }>
                     <Icon name="list" color={'white'} style={styles.created} />
                   </TouchableOpacity>
                 )}
-                {task.status === 'progress' && (
+                {task.status === 'progress' && isLoading === false && (
                   <TouchableOpacity
                     onPress={() =>
-                      updateTasksStatus(task.$id, 'completed', setRefreshData)
+                      updateTasksStatus(
+                        task.$id,
+                        'completed',
+                        setRefreshData,
+                        setIsLoading,
+                      )
                     }>
                     <Icon
                       name="hourglass-outline"
@@ -54,7 +77,7 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
-                {task.status === 'failed' && (
+                {task.status === 'failed' && isLoading === false && (
                   <TouchableOpacity>
                     <Icon
                       name="md-close"
@@ -69,14 +92,25 @@ const TaskCard = ({
                   <Text>{task.description}</Text>
                 </View>
                 <View style={styles.actionButtons}>
-                  <TouchableOpacity
-                    onPress={() => deleteTask(task.$id, setRefreshData)}>
-                    <Icon
-                      name="trash-outline"
-                      color={'white'}
-                      style={styles.delete}
-                    />
-                  </TouchableOpacity>
+                  {isDeleteLoading ? (
+                    <TouchableOpacity>
+                      <ActivityIndicator
+                        color={'white'}
+                        style={styles.delete}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() =>
+                        deleteTask(task.$id, setRefreshData, setIsDeleteLoading)
+                      }>
+                      <Icon
+                        name="trash-outline"
+                        color={'white'}
+                        style={styles.delete}
+                      />
+                    </TouchableOpacity>
+                  )}
                   {/* <TouchableOpacity>
                     <Icon
                       name="md-pencil"
@@ -102,6 +136,12 @@ const TaskCard = ({
 export default TaskCard;
 
 const styles = StyleSheet.create({
+  description: {
+    fontSize: 14,
+    color: 'gray',
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
   delete: {
     backgroundColor: 'red',
     fontSize: 15,

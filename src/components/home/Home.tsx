@@ -93,6 +93,7 @@ const Home = ({
               />
             </View>
           </View>
+
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={
@@ -121,6 +122,11 @@ const Home = ({
               onPress={() => setIsActivePage('Completed')}>
               <Text style={[styles.text]}>Completed</Text>
             </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={[styles.text, styles.description]}>
+              You can click on any category to get tasks.
+            </Text>
           </View>
           {isActivePage === 'My Task' && (
             <MyTask

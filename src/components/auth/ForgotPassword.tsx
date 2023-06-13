@@ -15,6 +15,7 @@ import {forgotPassword} from '../../appwrite/auth';
 const ForgotPassword = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <SafeAreaView>
@@ -39,9 +40,18 @@ const ForgotPassword = () => {
               keyboardType="email-address"
               autoCapitalize="none"
             />
-            <View style={styles.button}>
-              <Button title="Submit" onPress={forgotPassword} />
-            </View>
+            {isLoading ? (
+              <View style={styles.button}>
+                <Button title="Submitting..." />
+              </View>
+            ) : (
+              <View style={styles.button}>
+                <Button
+                  title="Submit"
+                  onPress={() => forgotPassword(email, setIsLoading)}
+                />
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>

@@ -3,6 +3,8 @@ import {database} from './config';
 import {ID, Query} from 'appwrite';
 import {taskType} from './types';
 import React from 'react';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../App';
 
 const databaseId = '6479a89da9f3a57ee5b3';
 const collectionId = '6479a8aa7773550ce5de';
@@ -10,6 +12,8 @@ const collectionId = '6479a8aa7773550ce5de';
 export async function createTask(
   task: taskType,
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Create'>,
 ) {
   try {
     if (
@@ -79,6 +83,7 @@ export async function createTask(
           }
         }
       }
+      setIsLoading(true);
 
       if (startHour === date.getHours() && startMinute === date.getMinutes()) {
         task.status = 'progress';
@@ -91,17 +96,20 @@ export async function createTask(
         task,
       );
       setRefreshData(true);
+      navigation.navigate('Home');
       Snackbar.show({
         text: 'Task successfully created',
         duration: Snackbar.LENGTH_SHORT,
       });
     }
+    setIsLoading(false);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
     console.log('Appwrite service :: createTask :: ' + error);
+    setIsLoading(false);
   }
 }
 
@@ -125,33 +133,41 @@ export async function updateTasksStatus(
   id: string,
   status: 'created' | 'progress' | 'completed' | 'failed',
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   try {
+    setIsLoading(true);
     await database.updateDocument(databaseId, collectionId, id, {
       status,
     });
     setRefreshData(true);
+    setIsLoading(false);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
     console.log('Appwrite service :: updateTasks ::' + error);
+    setIsLoading(false);
   }
 }
 
 export async function deleteTask(
   id: string,
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsDeleteLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   try {
+    setIsDeleteLoading(true);
     await database.deleteDocument(databaseId, collectionId, id);
     setRefreshData(true);
+    setIsDeleteLoading(false);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
     console.log('Appwrite service :: deleteTask ::' + error);
+    setIsDeleteLoading(false);
   }
 }
