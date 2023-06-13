@@ -53,6 +53,7 @@ const Main = ({navigation}: Props) => {
 };
 
 export default Main;
+
 const styles = StyleSheet.create({
   rightCircle: {
     position: 'absolute',
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     gap: 10,
+    marginTop: 20,
   },
   button: {
     borderWidth: 1,
@@ -102,44 +104,28 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderWidth: 1,
     borderTopLeftRadius: 30,
-    paddingVertical: 80,
     borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 80,
   },
   imageContainer: {
-    backgroundColor: '#954aff',
-
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonCircle: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'rgba(0, 0, 0, .2)',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inActiveDot: {
-    backgroundColor: 'gray',
-  },
-  activeDot: {
-    backgroundColor: 'blue',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-
     color: 'black',
+    marginBottom: 20,
   },
   description: {
     textAlign: 'center',
-    paddingHorizontal: 20,
     color: 'gray',
   },
   visualContent: {
     width: 350,
     height: 350,
+    resizeMode: 'contain',
   },
 });

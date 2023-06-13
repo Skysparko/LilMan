@@ -26,16 +26,17 @@ const Login: React.FC<LoginScreenProps> = ({
   navigation,
   setIsAuthenticated,
 }) => {
+  // State variables
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isGuestLoading, setIsGuestLoading] = useState(false);
-
   const [password, setPassword] = useState('');
   const [inputFocus, setInputFocus] = useState({
     email: false,
     password: false,
   });
 
+  // Event handlers
   const handleFocus = (inputName: string) => {
     setInputFocus(prevFocus => ({
       ...prevFocus,
@@ -49,11 +50,15 @@ const Login: React.FC<LoginScreenProps> = ({
       [inputName]: false,
     }));
   };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView contentContainerStyle={styles.container}>
+        {/* Login screen image */}
         <Image source={loginScreenImage} style={styles.image} />
+
         <View style={styles.form}>
+          {/* Email input field */}
           <TextInput
             onFocus={() => handleFocus('email')}
             onBlur={() => handleBlur('email')}
@@ -64,8 +69,9 @@ const Login: React.FC<LoginScreenProps> = ({
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            // style={styles.input}
           />
+
+          {/* Password input field */}
           <TextInput
             onFocus={() => handleFocus('password')}
             onBlur={() => handleBlur('password')}
@@ -76,11 +82,15 @@ const Login: React.FC<LoginScreenProps> = ({
             secureTextEntry
             style={[styles.input, inputFocus.password && styles.inputFocused]}
           />
+
+          {/* Forgot Password link */}
           <TouchableOpacity
             onPress={() => navigation.navigate('ForgotPassword')}
             style={styles.forgetPasswordContainer}>
             <Text style={styles.LinkText}>Forgot Password?</Text>
           </TouchableOpacity>
+
+          {/* Login button */}
           <View style={styles.button}>
             {isLoading ? (
               <Button title="LoggingIn..." color={'rgb(108, 0, 255)'} />
@@ -95,6 +105,8 @@ const Login: React.FC<LoginScreenProps> = ({
             )}
           </View>
         </View>
+
+        {/* Or Login as section */}
         <View style={styles.orContainer}>
           <LinearGradient
             colors={['white', 'black']}
@@ -110,6 +122,8 @@ const Login: React.FC<LoginScreenProps> = ({
             end={{x: 0, y: 1}}
           />
         </View>
+
+        {/* Guest login section */}
         <View style={styles.guestContainer}>
           {isGuestLoading ? (
             <Button color={'rgb(0, 108, 255)'} title="Guest LoggingIn ...." />
@@ -121,6 +135,8 @@ const Login: React.FC<LoginScreenProps> = ({
             />
           )}
         </View>
+
+        {/* Footer */}
         <View style={styles.footer}>
           <Text>Not a member?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>

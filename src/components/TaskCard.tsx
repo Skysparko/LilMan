@@ -5,19 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {deleteTask, updateTasksStatus} from '../appwrite/db';
 
 type Props = {
-  myTaskData: Models.Document[] | undefined;
-  selectedCategory: string;
-  // setTasks: React.Dispatch<React.SetStateAction<Models.Document[] | undefined>>;
-  setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
+  myTaskData: Models.Document[] | undefined; // Array of task objects
+  selectedCategory: string; // Selected category string
+  setRefreshData: React.Dispatch<React.SetStateAction<boolean>>; // State setter function
 };
-const TaskCard = ({
-  myTaskData,
-  selectedCategory,
-  // setTasks,
-  setRefreshData,
-}: Props) => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+
+const TaskCard = ({myTaskData, selectedCategory, setRefreshData}: Props) => {
+  // Iterate over the task data and render task cards
   return (
     <View style={styles.mainContainer}>
       <Text style={[styles.darkText, styles.title]}>Tasks</Text>
@@ -26,9 +20,10 @@ const TaskCard = ({
       </Text>
       {myTaskData?.map(
         (task, key) =>
-          task.category === selectedCategory && (
+          task.category === selectedCategory && ( // Filter tasks based on selected category
             <View key={key} style={styles.taskContainer}>
               <View style={styles.info}>
+                {/* Render different icons based on task status */}
                 {task.status === 'completed' && (
                   <TouchableOpacity>
                     <Icon
@@ -67,12 +62,16 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
+
+                {/* Render task title and description */}
                 <View style={styles.infoContainer}>
                   <View>
                     <Text style={styles.taskTitle}>{task.name}</Text>
                     <Text>{task.description}</Text>
                   </View>
                 </View>
+
+                {/* Render action buttons */}
                 <View style={styles.actionButtons}>
                   <TouchableOpacity
                     onPress={() => deleteTask(task.$id, setRefreshData)}>

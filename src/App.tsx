@@ -1,33 +1,8 @@
-//react
 import React, {useEffect, useState} from 'react';
-//react-native
-// import {StyleSheet} from 'react-native';
-//react-navigation
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import 'react-native-gesture-handler';
-
-//pages (authenticated users)
-import Home from './components/home/Home';
-import Create from './components/Create';
-import Manage from './components/Manage';
-
-//pages (non-authenticated users)
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-
-//appwrite
-import {account} from './appwrite/config';
-
-//images
-
-import IconComponent from './components/IconComponent';
-import ForgotPassword from './components/auth/ForgotPassword';
-import SplashScreen from 'react-native-splash-screen';
 import {Image} from 'react-native';
-
 import {UserDataType} from './appwrite/types';
 import {getUserTasks} from './appwrite/db';
 import {Models} from 'appwrite';
@@ -35,21 +10,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import IntroScreen from './components/Intro';
 import Main from './components/auth/Main';
 import Loader from './components/Loader';
+import {account} from './appwrite/config';
+import SplashScreen from 'react-native-splash-screen';
+import IconComponent from './components/IconComponent';
+import Home from './components/home/Home';
+import Manage from './components/Manage';
+import Create from './components/Create';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import ForgotPassword from './components/auth/ForgotPassword';
 
-//Param Types of Components
+// Define the parameter types for the components
 export type RootStackParamList = {
-  //pages (authenticated users)
   Home: undefined;
   Create: undefined;
   Manage: undefined;
-  //pages (non-authenticated users)
   Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
   Main: undefined;
 };
 
-//Stack and Tab Navigator Component
+// Create the stack and tab navigators
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -59,14 +41,12 @@ const App = () => {
   const [refreshData, setRefreshData] = useState(true);
   const [tasks, setTasks] = useState<Models.Document[]>();
   const [totalTasks, setTotalTasks] = useState(0);
-
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(true);
 
   useEffect(() => {
-    // Check user's login status
-
+    // Check the user's login status
     const checkLoginStatus = async () => {
       try {
         setIsRefreshing(true);
@@ -75,13 +55,12 @@ const App = () => {
           getUserTasks(res.$id).then(data => {
             setTasks(data?.documents!);
             setTotalTasks(data?.total!);
-            setRefreshData(false); // Reset refreshData after fetching
+            setRefreshData(false);
             console.log('refreshing user data');
           });
         }
         setUser(res);
         setIsAuthenticated(true);
-
         setIsLoading(false);
       } catch (error) {
         setIsAuthenticated(false);
@@ -103,15 +82,14 @@ const App = () => {
   }, [isAuthenticated, isLoading, refreshData]);
 
   useEffect(() => {
+    // Check the intro status
     const checkIntroStatus = async () => {
       try {
         const introShown = await AsyncStorage.getItem('introShown');
         if (introShown === null) {
-          // Intro has not been shown before
-          setShowIntro(true);
+          setShowIntro(true); // Intro has not been shown before
         } else {
-          // Intro has been shown before
-          setShowIntro(false);
+          setShowIntro(false); // Intro has been shown before
         }
       } catch (error) {
         console.log(error);
@@ -135,7 +113,6 @@ const App = () => {
             screenOptions={({route}) => ({
               tabBarIcon: ({focused, color, size}) => {
                 let iconName;
-
                 if (route.name === 'Home') {
                   iconName = focused ? 'home' : 'home-outline';
                 } else if (route.name === 'Manage') {

@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   SafeAreaView,
@@ -7,7 +8,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
 import {createTask} from '../appwrite/db';
@@ -46,6 +46,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
+      {/* Header */}
       <LinearGradient
         colors={['#7512fc', '#6102e3']}
         style={styles.upperContainer}>
@@ -56,6 +57,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
         <View style={styles.leftCircle}>
           <Text style={styles.blendText}> o</Text>
         </View>
+        {/* Form */}
         <View style={styles.form}>
           <View>
             <Text style={styles.lightText}>Name</Text>
@@ -77,8 +79,8 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
               }}>
               {date.toISOString().split('T')[0]}
             </Text>
-
-            {showDateMenu ? (
+            {/* Date Picker */}
+            {showDateMenu && (
               <DateTimePicker
                 value={date}
                 mode="date"
@@ -90,12 +92,13 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
                   }
                 }}
               />
-            ) : null}
+            )}
           </View>
         </View>
       </LinearGradient>
-      {/* <View style={styles.lowerContainer}> */}
+      {/* Form Content */}
       <ScrollView contentContainerStyle={styles.lowerContainer}>
+        {/* Time Container */}
         <View style={styles.timeContainer}>
           <View>
             <Text style={styles.darkText}>Start Time</Text>
@@ -107,8 +110,8 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
               }}>
               {startTime.hours + ' : ' + startTime.minutes}
             </Text>
-
-            {showStartTime ? (
+            {/* Start Time Picker */}
+            {showStartTime && (
               <DateTimePicker
                 value={date}
                 mode="time"
@@ -121,7 +124,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
                   });
                 }}
               />
-            ) : null}
+            )}
           </View>
           <View>
             <Text style={styles.darkText}>End Time</Text>
@@ -129,12 +132,11 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
               style={[styles.title, styles.darkText, styles.fakeInput]}
               onPress={() => {
                 setShowEndTime(true);
-
                 console.log('open');
               }}>
               {endTime.hours + ' : ' + endTime.minutes}
             </Text>
-
+            {/* End Time Picker */}
             {showEndTime && (
               <DateTimePicker
                 value={date}
@@ -151,6 +153,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
             )}
           </View>
         </View>
+        {/* Description */}
         <View style={styles.description}>
           <Text style={styles.darkText}>Description</Text>
           <TextInput
@@ -164,6 +167,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
             style={[styles.input, styles.darkText]}
           />
         </View>
+        {/* Category */}
         <View style={styles.category}>
           <Text style={styles.darkText}>Category</Text>
           <TextInput
@@ -174,6 +178,7 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
             style={[styles.input, styles.darkText]}
           />
         </View>
+        {/* Create Task Button */}
         <View style={styles.button}>
           {isLoading ? (
             <Button title="Creating..." color={'rgb(108, 0, 255)'} />
@@ -202,7 +207,6 @@ const Create = ({setRefreshData, navigation}: CreateScreenProps) => {
           )}
         </View>
       </ScrollView>
-      {/* </View> */}
     </SafeAreaView>
   );
 };

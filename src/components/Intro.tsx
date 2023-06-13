@@ -2,13 +2,12 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import first from '../assets/gif/1.gif';
 import second from '../assets/gif/2.gif';
 import third from '../assets/gif/3.gif';
-
-import SplashScreen from 'react-native-splash-screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = {
   setShowIntro: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +17,8 @@ const IntroScreen = ({setShowIntro}: Props) => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  // Function to mark intro as shown and update state
   const markIntroAsShown = async () => {
     try {
       await AsyncStorage.setItem('introShown', 'true');
@@ -27,6 +28,8 @@ const IntroScreen = ({setShowIntro}: Props) => {
       // Handle error
     }
   };
+
+  // Intro pages data
   const pages = [
     {
       title: 'Boost Your Productivity',
@@ -51,6 +54,7 @@ const IntroScreen = ({setShowIntro}: Props) => {
     },
   ];
 
+  // Render function for next button
   const renderNextButton = () => {
     return (
       <View style={styles.buttonCircle}>
@@ -58,6 +62,8 @@ const IntroScreen = ({setShowIntro}: Props) => {
       </View>
     );
   };
+
+  // Render function for previous button
   const renderPrevButton = () => {
     return (
       <View style={styles.buttonCircle}>
@@ -65,6 +71,8 @@ const IntroScreen = ({setShowIntro}: Props) => {
       </View>
     );
   };
+
+  // Render function for done button
   const renderDoneButton = () => {
     return (
       <View style={styles.buttonCircle}>
@@ -79,13 +87,8 @@ const IntroScreen = ({setShowIntro}: Props) => {
       renderItem={({item}) => (
         <View
           style={[styles.container, {backgroundColor: item.backgroundColor}]}>
-          {/* <FastImage
-            source={item.image}
-            resizeMode={FastImage.resizeMode.contain}
-          /> */}
           <Text style={styles.title}>{item.title}</Text>
           <Image source={item.image} style={styles.visualContent} />
-
           <Text style={styles.description}>{item.description}</Text>
         </View>
       )}

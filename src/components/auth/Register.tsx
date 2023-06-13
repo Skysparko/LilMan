@@ -13,6 +13,7 @@ import {RootStackParamList} from '../../App';
 import {registerUser} from '../../appwrite/auth';
 import registerScreenImage from '../../assets/images/auth/register.png';
 import {Image, ScrollView} from 'react-native';
+
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Register'>;
 };
@@ -134,14 +135,12 @@ const styles = StyleSheet.create({
   image: {
     height: 250,
     width: 250,
-
     alignSelf: 'center',
   },
   input: {
     borderWidth: 1,
     borderColor: '#e6e6e6',
     padding: 10,
-
     borderRadius: 10,
     backgroundColor: 'white',
     fontSize: 15,
@@ -150,39 +149,18 @@ const styles = StyleSheet.create({
   },
   form: {
     marginHorizontal: 20,
-
     gap: 20,
   },
   inputFocused: {
     borderColor: 'blue',
     elevation: 5,
   },
-  // lines: {
-  //   height: 0.5,
-  //   width: 100,
-  //   backgroundColor: 'black',
-  // },
-  // orContainer: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   gap: 10,
-  // },
-  // guestContainer: {
-  //   marginHorizontal: 20,
-  //   borderRadius: 8,
-  //   overflow: 'hidden',
-  //   elevation: 5,
-  // },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 5,
     marginTop: 40,
   },
-  // forgetPasswordContainer: {
-  //   alignItems: 'flex-end',
-  // },
   LinkText: {
     color: 'blue',
   },

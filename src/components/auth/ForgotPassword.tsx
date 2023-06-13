@@ -24,7 +24,7 @@ const ForgotPassword = () => {
           <Text style={styles.title}>Forgot Password?</Text>
           <Image source={mainImage} style={styles.image} />
           <Text style={styles.description}>
-            Don't worry ,Enter your email address to reset your password.
+            Don't worry, enter your email address to reset your password.
           </Text>
         </View>
         <View style={styles.form}>
@@ -33,7 +33,7 @@ const ForgotPassword = () => {
             onBlur={() => setInputFocus(false)}
             style={[styles.input, inputFocus && styles.inputFocused]}
             placeholder="Email"
-            placeholderTextColor={'#8a8a8a'}
+            placeholderTextColor="#8a8a8a"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   image: {
     height: 250,
     width: 250,
-
     alignSelf: 'center',
   },
   input: {

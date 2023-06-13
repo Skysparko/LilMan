@@ -20,6 +20,7 @@ const CatScrollMenu = ({myTaskData, setSelectedCategory}: Props) => {
 
   useEffect(() => {
     if (myTaskData) {
+      // Extract unique categories from myTaskData
       let data = [...new Set(myTaskData.map(item => item.category))];
       setCategoryList(data);
     }
@@ -30,6 +31,7 @@ const CatScrollMenu = ({myTaskData, setSelectedCategory}: Props) => {
       {categoryList?.map((category, key) =>
         key === activeCategory ? (
           <View key={key}>
+            {/* Active category */}
             <LinearGradient
               key={key}
               colors={['#7512fc', '#6102e3']}
@@ -50,6 +52,7 @@ const CatScrollMenu = ({myTaskData, setSelectedCategory}: Props) => {
               setActiveCategory(key);
               setSelectedCategory(category);
             }}>
+            {/* Inactive category */}
             <LinearGradient
               colors={['#7512fc', '#6102e3']}
               style={styles.inActiveCatScrollContainer}>
@@ -104,10 +107,8 @@ const styles = StyleSheet.create({
     height: 200,
     overflow: 'hidden',
     backgroundColor: '#6102e3',
-
     opacity: 0.3,
   },
-
   title: {
     fontSize: 25,
     fontWeight: 'bold',
@@ -138,7 +139,6 @@ const styles = StyleSheet.create({
     gap: 20,
     marginTop: 100,
   },
-
   button: {
     borderRadius: 20,
     overflow: 'hidden',

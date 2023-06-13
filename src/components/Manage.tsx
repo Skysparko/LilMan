@@ -19,23 +19,13 @@ type ManageScreenProps = {
   setTasks: React.Dispatch<React.SetStateAction<Models.Document[] | undefined>>;
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const Manage = ({
-  // setTasks,
-  navigation,
-  // setIsAuthenticated,
-  // user,
-  tasks,
-  setRefreshData,
-}: ManageScreenProps) => {
+
+const Manage = ({navigation, tasks, setRefreshData}: ManageScreenProps) => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
   );
-
   const [tasksData, setTasksData] = useState<Models.Document[]>();
   const [showTasks, setShowTasks] = useState<boolean | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-
   const [events, setEvents] = useState<{
     [date: string]: {
       selected: boolean;
@@ -43,6 +33,7 @@ const Manage = ({
       selectedColor: string;
     };
   }>({});
+
   useEffect(() => {
     tasksData?.length === 0 ? setShowTasks(false) : setShowTasks(true);
     setTasksData(tasks);
@@ -56,7 +47,6 @@ const Manage = ({
       } = {};
       tasksData?.map(event => {
         const formattedDate = event.date;
-        console.log('date' + formattedDate);
         let color: string;
         if (event.status === 'created') {
           color = 'purple';
@@ -96,12 +86,6 @@ const Manage = ({
                 task.date === selectedDate && (
                   <View key={key} style={styles.taskContainer}>
                     <View style={styles.info}>
-                      {/* {isLoading && (
-                        <ActivityIndicator
-                          color={'white'}
-                          style={styles.progress}
-                        />
-                      )} */}
                       {task.status === 'completed' && (
                         <TouchableOpacity>
                           <Icon
@@ -226,19 +210,10 @@ const styles = StyleSheet.create({
   delete: {
     fontSize: 25,
   },
-  edit: {
-    backgroundColor: 'blue',
-    fontSize: 15,
-    padding: 5,
-    borderRadius: 5,
-  },
   infoContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  time: {
-    gap: 5,
   },
   actionButtons: {},
   taskTitle: {
@@ -246,19 +221,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'black',
   },
-
   info: {
     display: 'flex',
     flexDirection: 'row',
-
     alignItems: 'center',
     paddingHorizontal: 10,
-
     gap: 20,
-  },
-  dateTime: {
-    paddingTop: 10,
-    borderWidth: 1,
   },
   date: {
     textAlign: 'center',
@@ -293,78 +261,31 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     elevation: 2,
   },
-  mainContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-  },
+  mainContainer: {},
   taskContainer: {
     backgroundColor: 'white',
     elevation: 5,
     paddingVertical: 20,
     paddingHorizontal: 10,
-
     borderColor: 'gray',
     borderRadius: 10,
     marginVertical: 10,
   },
-  catScrollContainer: {
-    margin: 10,
-    borderRadius: 15,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 200,
-    height: 200,
-    overflow: 'hidden',
-    backgroundColor: '#6102e3',
-    elevation: 10,
-  },
-
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-  },
-
-  rightCircle: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    borderBottomLeftRadius: 100,
-    height: 100,
-    width: 100,
-    backgroundColor: '#5900d1',
-  },
-  blendText: {
-    color: '#5900d1',
-  },
-  leftCircle: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    borderTopRightRadius: 100,
-    height: 100,
-    width: 100,
-    backgroundColor: '#5900d1',
   },
   emptyContent: {
     alignItems: 'center',
     gap: 20,
     marginTop: 100,
   },
-
   button: {
     borderRadius: 20,
     overflow: 'hidden',
     elevation: 10,
     width: 100,
   },
-  lightText: {
-    color: 'white',
-  },
-  darkText: {
-    color: 'black',
-  },
-
   container: {
     margin: 20,
   },
@@ -374,7 +295,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     overflow: 'hidden',
   },
-
   text: {
     color: 'black',
   },

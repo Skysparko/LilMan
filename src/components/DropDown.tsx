@@ -25,18 +25,6 @@ const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
         </TouchableWithoutFeedback>
 
         <View style={styles.dropdown}>
-          {/* <TouchableOpacity
-            style={styles.option}
-            onPress={() => handleOptionSelect('Option 1')}>
-            <Icon name="person-circle-outline" color={'black'} size={25} />
-            <Text style={styles.optionText}>Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.option}
-            onPress={() => handleOptionSelect('Option 2')}>
-            <Icon name="help-circle-outline" color={'black'} size={25} />
-            <Text style={styles.optionText}>Help</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.option}
             onPress={() => logOutUser(setIsAuthenticated)}>
