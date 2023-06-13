@@ -43,8 +43,8 @@ const Register: React.FC<RegisterScreenProps> = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <SafeAreaView style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Image source={registerScreenImage} style={styles.image} />
         <View style={styles.form}>
           <TextInput
@@ -113,6 +113,9 @@ const Register: React.FC<RegisterScreenProps> = ({navigation}) => {
 export default Register;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
   text: {
     fontSize: 12,
     marginHorizontal: 15,
@@ -123,16 +126,22 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 5,
   },
-  container: {},
+  container: {
+    flex: 1,
+    gap: 20,
+    justifyContent: 'center',
+  },
   image: {
     height: 250,
     width: 250,
+
     alignSelf: 'center',
   },
   input: {
     borderWidth: 1,
     borderColor: '#e6e6e6',
-    paddingHorizontal: 10,
+    padding: 10,
+
     borderRadius: 10,
     backgroundColor: 'white',
     fontSize: 15,
@@ -140,8 +149,9 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   form: {
-    gap: 20,
     marginHorizontal: 20,
+
+    gap: 20,
   },
   inputFocused: {
     borderColor: 'blue',

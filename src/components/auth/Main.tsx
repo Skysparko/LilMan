@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 import mainImage from '../../assets/gif/4.gif';
@@ -6,6 +6,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import {TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {ScrollView} from 'react-native';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Main'>;
@@ -14,21 +15,20 @@ type Props = {
 
 const Main = ({navigation}: Props) => {
   return (
-    <View style={styles.mainContainer}>
-      <View>
-        <LinearGradient
-          colors={['#954aff', '#6102e3']}
-          style={styles.imageContainer}>
-          <View style={styles.rightCircle}>
-            <Text style={styles.blendText}>o</Text>
-          </View>
-          <View style={styles.leftCircle}>
-            <Text style={styles.blendText}> o</Text>
-          </View>
-          <Image source={mainImage} style={styles.visualContent} />
-        </LinearGradient>
-      </View>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.mainContainer}>
+      <LinearGradient
+        colors={['#954aff', '#6102e3']}
+        style={styles.imageContainer}>
+        <View style={styles.rightCircle}>
+          <Text style={styles.blendText}>o</Text>
+        </View>
+        <View style={styles.leftCircle}>
+          <Text style={styles.blendText}> o</Text>
+        </View>
+        <Image source={mainImage} style={styles.visualContent} />
+      </LinearGradient>
+
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Your Personal Little Manager</Text>
 
         <Text style={styles.description}>
@@ -47,8 +47,8 @@ const Main = ({navigation}: Props) => {
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -95,18 +95,17 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: '#5900d1',
-    height: '60%',
+    flex: 1,
   },
   container: {
     backgroundColor: 'white',
+    flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    gap: 40,
+    justifyContent: 'space-around',
     borderWidth: 1,
     borderTopLeftRadius: 30,
+    paddingVertical: 80,
     borderTopRightRadius: 30,
-    height: '80%',
   },
   imageContainer: {
     backgroundColor: '#954aff',

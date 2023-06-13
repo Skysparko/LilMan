@@ -133,41 +133,41 @@ export async function updateTasksStatus(
   id: string,
   status: 'created' | 'progress' | 'completed' | 'failed',
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  // setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   try {
-    setIsLoading(true);
+    // setIsLoading(true);
     await database.updateDocument(databaseId, collectionId, id, {
       status,
     });
     setRefreshData(true);
-    setIsLoading(false);
+    // setIsLoading(false);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
     console.log('Appwrite service :: updateTasks ::' + error);
-    setIsLoading(false);
+    // setIsLoading(false);
   }
 }
 
 export async function deleteTask(
   id: string,
   setRefreshData: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsDeleteLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  // setIsDeleteLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
   try {
-    setIsDeleteLoading(true);
+    // setIsDeleteLoading(true);
     await database.deleteDocument(databaseId, collectionId, id);
     setRefreshData(true);
-    setIsDeleteLoading(false);
+    // setIsDeleteLoading(false);
   } catch (error) {
     Snackbar.show({
       text: String((error as Error).message),
       duration: Snackbar.LENGTH_SHORT,
     });
     console.log('Appwrite service :: deleteTask ::' + error);
-    setIsDeleteLoading(false);
+    // setIsDeleteLoading(false);
   }
 }

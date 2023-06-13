@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -39,8 +33,8 @@ const Manage = ({
 
   const [tasksData, setTasksData] = useState<Models.Document[]>();
   const [showTasks, setShowTasks] = useState<boolean | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const [events, setEvents] = useState<{
     [date: string]: {
@@ -79,11 +73,8 @@ const Manage = ({
         formattedEvents[formattedDate] = formattedEvent;
       });
       setEvents(formattedEvents);
-      console.log(formattedEvents);
     }
   }, [tasksData, tasks]);
-  console.log(selectedDate);
-  console.log(events);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -105,13 +96,13 @@ const Manage = ({
                 task.date === selectedDate && (
                   <View key={key} style={styles.taskContainer}>
                     <View style={styles.info}>
-                      {isLoading && (
+                      {/* {isLoading && (
                         <ActivityIndicator
                           color={'white'}
                           style={styles.progress}
                         />
-                      )}
-                      {task.status === 'completed' && isLoading === false && (
+                      )} */}
+                      {task.status === 'completed' && (
                         <TouchableOpacity>
                           <Icon
                             name="checkmark-sharp"
@@ -120,14 +111,13 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'created' && isLoading === false && (
+                      {task.status === 'created' && (
                         <TouchableOpacity
                           onPress={() =>
                             updateTasksStatus(
                               task.$id,
                               'progress',
                               setRefreshData,
-                              setIsLoading,
                             )
                           }>
                           <Icon
@@ -137,14 +127,13 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'progress' && isLoading === false && (
+                      {task.status === 'progress' && (
                         <TouchableOpacity
                           onPress={() =>
                             updateTasksStatus(
                               task.$id,
                               'completed',
                               setRefreshData,
-                              setIsLoading,
                             )
                           }>
                           <Icon
@@ -154,7 +143,7 @@ const Manage = ({
                           />
                         </TouchableOpacity>
                       )}
-                      {task.status === 'failed' && isLoading === false && (
+                      {task.status === 'failed' && (
                         <TouchableOpacity>
                           <Icon
                             name="md-close"
@@ -165,46 +154,36 @@ const Manage = ({
                       )}
 
                       <View style={styles.infoContainer}>
-                        <Text style={styles.taskTitle}>{task.name}</Text>
-                        <Text>{task.description}</Text>
+                        <View>
+                          <Text style={styles.taskTitle}>{task.name}</Text>
+                          <Text>{task.description}</Text>
+                        </View>
                       </View>
                       <View style={styles.actionButtons}>
-                        {isDeleteLoading ? (
-                          <ActivityIndicator
-                            color={'white'}
+                        <TouchableOpacity
+                          onPress={() => deleteTask(task.$id, setRefreshData)}>
+                          <Icon
+                            name="close"
+                            color={'red'}
                             style={styles.delete}
                           />
-                        ) : (
-                          <TouchableOpacity
-                            onPress={() =>
-                              deleteTask(
-                                task.$id,
-                                setRefreshData,
-                                setIsDeleteLoading,
-                              )
-                            }>
-                            <Icon
-                              name="trash-outline"
-                              color={'white'}
-                              style={styles.delete}
-                            />
-                          </TouchableOpacity>
-                        )}
-                        {/* <TouchableOpacity>
-                        <Icon
-                          name="md-pencil"
-                          color={'white'}
-                          style={styles.edit}
-                        />
-                      </TouchableOpacity> */}
+                        </TouchableOpacity>
                       </View>
                     </View>
-                    <View style={styles.dateTime}>
-                      <Text style={styles.darkText}>{task.date}</Text>
-                      <Text style={styles.darkText}>
-                        {task.startTime} - {task.endTime}
-                      </Text>
-                    </View>
+
+                    {task.status === 'created' && (
+                      <View style={styles.timeMenu}>
+                        <Text style={styles.date}>
+                          Starting- {task.startTime}
+                        </Text>
+                        <Text style={styles.date}>Deadline-{task.endTime}</Text>
+                      </View>
+                    )}
+                    {task.status === 'progress' && (
+                      <View style={styles.timeMenu}>
+                        <Text style={styles.date}>Deadline-{task.endTime}</Text>
+                      </View>
+                    )}
                   </View>
                 ),
             )}
@@ -231,46 +210,21 @@ const Manage = ({
 export default Manage;
 
 const styles = StyleSheet.create({
+  timeMenu: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginHorizontal: 20,
+  },
   description: {
-    marginLeft: 10,
+    fontSize: 14,
+    color: 'gray',
+    marginHorizontal: 10,
     marginVertical: 5,
   },
-  mainContainer: {
-    height: '100%',
-  },
-  container: {
-    margin: 20,
-  },
-  calendar: {
-    elevation: 10,
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    overflow: 'hidden',
-  },
-  title: {
-    fontSize: 25,
-    fontWeight: '500',
-  },
-  text: {
-    color: 'black',
-  },
-  emptyContent: {
-    alignItems: 'center',
-    gap: 20,
-    margin: 50,
-  },
-
-  button: {
-    borderRadius: 20,
-    overflow: 'hidden',
-    elevation: 6,
-    width: 100,
-  },
   delete: {
-    backgroundColor: 'red',
-    fontSize: 15,
-    padding: 5,
-    borderRadius: 5,
+    fontSize: 25,
   },
   edit: {
     backgroundColor: 'blue',
@@ -278,10 +232,15 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  infoContainer: {},
-  actionButtons: {
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  time: {
     gap: 5,
   },
+  actionButtons: {},
   taskTitle: {
     fontSize: 18,
     fontWeight: '500',
@@ -291,58 +250,62 @@ const styles = StyleSheet.create({
   info: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingBottom: 10,
-    borderBottomWidth: 0.5,
-    gap: 5,
+
+    gap: 20,
   },
   dateTime: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
     paddingTop: 10,
+    borderWidth: 1,
+  },
+  date: {
+    textAlign: 'center',
+    color: 'gray',
+    fontWeight: '500',
   },
   completed: {
     backgroundColor: 'green',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   progress: {
     backgroundColor: 'blue',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   failed: {
     backgroundColor: 'red',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   created: {
     backgroundColor: 'purple',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
-  // mainContainer: {
-  //   paddingVertical: 20,
-  //   paddingHorizontal: 10,
-  // },
+  mainContainer: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
   taskContainer: {
     backgroundColor: 'white',
     elevation: 5,
-    padding: 10,
-    borderWidth: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+
     borderColor: 'gray',
     borderRadius: 10,
     marginVertical: 10,
-    marginHorizontal: 5,
   },
   catScrollContainer: {
     margin: 10,
@@ -357,10 +320,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
 
-  // title: {
-  //   fontSize: 25,
-  //   fontWeight: 'bold',
-  // },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
 
   rightCircle: {
     position: 'absolute',
@@ -383,22 +346,36 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: '#5900d1',
   },
-  // emptyContent: {
-  //   alignItems: 'center',
-  //   gap: 20,
-  //   marginTop: 100,
-  // },
+  emptyContent: {
+    alignItems: 'center',
+    gap: 20,
+    marginTop: 100,
+  },
 
-  // button: {
-  //   borderRadius: 20,
-  //   overflow: 'hidden',
-  //   elevation: 10,
-  //   width: 100,
-  // },
+  button: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    elevation: 10,
+    width: 100,
+  },
   lightText: {
     color: 'white',
   },
   darkText: {
+    color: 'black',
+  },
+
+  container: {
+    margin: 20,
+  },
+  calendar: {
+    elevation: 10,
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    overflow: 'hidden',
+  },
+
+  text: {
     color: 'black',
   },
 });

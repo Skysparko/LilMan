@@ -50,8 +50,8 @@ const Login: React.FC<LoginScreenProps> = ({
     }));
   };
   return (
-    <SafeAreaView>
-      <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Image source={loginScreenImage} style={styles.image} />
         <View style={styles.form}>
           <TextInput
@@ -135,6 +135,9 @@ const Login: React.FC<LoginScreenProps> = ({
 export default Login;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
   button: {
     borderRadius: 8,
     overflow: 'hidden',
@@ -147,10 +150,14 @@ const styles = StyleSheet.create({
   },
   container: {
     marginVertical: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   image: {
     height: 250,
-    width: 200,
+    width: 250,
+    resizeMode: 'contain',
     alignSelf: 'center',
   },
   input: {

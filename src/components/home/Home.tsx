@@ -49,7 +49,7 @@ const Home = ({
 
   const [completedTaskData, setCompletedTaskData] =
     useState<Models.Document[]>();
-  console.log(tasks);
+
   useEffect(() => {
     myTaskData?.length === 0
       ? setShowMyTaskData(false)
@@ -81,7 +81,6 @@ const Home = ({
                   size={40}
                   onPress={() => {
                     setIsVisibleDropDown(true);
-                    console.log('yo');
                   }}
                 />
               </TouchableOpacity>
@@ -123,11 +122,7 @@ const Home = ({
               <Text style={[styles.text]}>Completed</Text>
             </TouchableOpacity>
           </View>
-          <View>
-            <Text style={[styles.text, styles.description]}>
-              You can click on any category to get tasks.
-            </Text>
-          </View>
+
           {isActivePage === 'My Task' && (
             <MyTask
               navigation={navigation}
@@ -212,13 +207,14 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
   },
-  title: {
-    fontSize: 30,
-    fontWeight: '500',
-  },
+
   description: {
     fontSize: 15,
     color: 'gray',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '500',
   },
   header: {
     justifyContent: 'space-between',

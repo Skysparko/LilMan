@@ -41,6 +41,11 @@ const MyTask = ({
         </View>
       ) : showMyTaskData ? (
         <View>
+          <View>
+            <Text style={[styles.text, styles.description]}>
+              You can click on any category to get tasks.
+            </Text>
+          </View>
           <CatScrollMenu
             myTaskData={myTaskData}
             setSelectedCategory={setSelectedCategory}
@@ -70,6 +75,14 @@ const MyTask = ({
 export default MyTask;
 
 const styles = StyleSheet.create({
+  text: {
+    color: 'black',
+  },
+
+  description: {
+    fontSize: 15,
+    color: 'gray',
+  },
   mainContainer: {
     paddingVertical: 20,
     paddingHorizontal: 10,

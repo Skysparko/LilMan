@@ -1,11 +1,5 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
 import {Models} from 'appwrite';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {deleteTask, updateTasksStatus} from '../appwrite/db';
@@ -22,8 +16,8 @@ const TaskCard = ({
   // setTasks,
   setRefreshData,
 }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   return (
     <View style={styles.mainContainer}>
       <Text style={[styles.darkText, styles.title]}>Tasks</Text>
@@ -35,10 +29,7 @@ const TaskCard = ({
           task.category === selectedCategory && (
             <View key={key} style={styles.taskContainer}>
               <View style={styles.info}>
-                {isLoading && (
-                  <ActivityIndicator style={styles.progress} color={'white'} />
-                )}
-                {task.status === 'completed' && isLoading === false && (
+                {task.status === 'completed' && (
                   <TouchableOpacity>
                     <Icon
                       name="checkmark-sharp"
@@ -47,28 +38,18 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
-                {task.status === 'created' && isLoading === false && (
+                {task.status === 'created' && (
                   <TouchableOpacity
                     onPress={() =>
-                      updateTasksStatus(
-                        task.$id,
-                        'progress',
-                        setRefreshData,
-                        setIsLoading,
-                      )
+                      updateTasksStatus(task.$id, 'progress', setRefreshData)
                     }>
                     <Icon name="list" color={'white'} style={styles.created} />
                   </TouchableOpacity>
                 )}
-                {task.status === 'progress' && isLoading === false && (
+                {task.status === 'progress' && (
                   <TouchableOpacity
                     onPress={() =>
-                      updateTasksStatus(
-                        task.$id,
-                        'completed',
-                        setRefreshData,
-                        setIsLoading,
-                      )
+                      updateTasksStatus(task.$id, 'completed', setRefreshData)
                     }>
                     <Icon
                       name="hourglass-outline"
@@ -77,7 +58,7 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
-                {task.status === 'failed' && isLoading === false && (
+                {task.status === 'failed' && (
                   <TouchableOpacity>
                     <Icon
                       name="md-close"
@@ -86,45 +67,18 @@ const TaskCard = ({
                     />
                   </TouchableOpacity>
                 )}
-
                 <View style={styles.infoContainer}>
-                  <Text style={styles.taskTitle}>{task.name}</Text>
-                  <Text>{task.description}</Text>
+                  <View>
+                    <Text style={styles.taskTitle}>{task.name}</Text>
+                    <Text>{task.description}</Text>
+                  </View>
                 </View>
                 <View style={styles.actionButtons}>
-                  {isDeleteLoading ? (
-                    <TouchableOpacity>
-                      <ActivityIndicator
-                        color={'white'}
-                        style={styles.delete}
-                      />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      onPress={() =>
-                        deleteTask(task.$id, setRefreshData, setIsDeleteLoading)
-                      }>
-                      <Icon
-                        name="trash-outline"
-                        color={'white'}
-                        style={styles.delete}
-                      />
-                    </TouchableOpacity>
-                  )}
-                  {/* <TouchableOpacity>
-                    <Icon
-                      name="md-pencil"
-                      color={'white'}
-                      style={styles.edit}
-                    />
-                  </TouchableOpacity> */}
+                  <TouchableOpacity
+                    onPress={() => deleteTask(task.$id, setRefreshData)}>
+                    <Icon name="close" color={'red'} style={styles.delete} />
+                  </TouchableOpacity>
                 </View>
-              </View>
-              <View style={styles.dateTime}>
-                <Text style={styles.darkText}>{task.date}</Text>
-                <Text style={styles.darkText}>
-                  {task.startTime} - {task.endTime}
-                </Text>
               </View>
             </View>
           ),
@@ -143,10 +97,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   delete: {
-    backgroundColor: 'red',
-    fontSize: 15,
-    padding: 5,
-    borderRadius: 5,
+    fontSize: 25,
   },
   edit: {
     backgroundColor: 'blue',
@@ -154,10 +105,15 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  infoContainer: {},
-  actionButtons: {
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  time: {
     gap: 5,
   },
+  actionButtons: {},
   taskTitle: {
     fontSize: 18,
     fontWeight: '500',
@@ -167,44 +123,47 @@ const styles = StyleSheet.create({
   info: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingBottom: 10,
-    borderBottomWidth: 0.5,
-    gap: 5,
+
+    gap: 20,
   },
   dateTime: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
     paddingTop: 10,
+    borderWidth: 1,
+  },
+  date: {
+    textAlign: 'center',
+    color: 'black',
   },
   completed: {
     backgroundColor: 'green',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   progress: {
     backgroundColor: 'blue',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   failed: {
     backgroundColor: 'red',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   created: {
     backgroundColor: 'purple',
     fontSize: 25,
     padding: 5,
     borderRadius: 5,
+    elevation: 2,
   },
   mainContainer: {
     paddingVertical: 20,
@@ -213,8 +172,9 @@ const styles = StyleSheet.create({
   taskContainer: {
     backgroundColor: 'white',
     elevation: 5,
-    padding: 10,
-    borderWidth: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+
     borderColor: 'gray',
     borderRadius: 10,
     marginVertical: 10,

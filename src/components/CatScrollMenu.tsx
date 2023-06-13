@@ -20,9 +20,7 @@ const CatScrollMenu = ({myTaskData, setSelectedCategory}: Props) => {
 
   useEffect(() => {
     if (myTaskData) {
-      let data = [
-        ...new Set(myTaskData.map(item => item.category.toLowerCase())),
-      ];
+      let data = [...new Set(myTaskData.map(item => item.category))];
       setCategoryList(data);
     }
   }, [myTaskData]);

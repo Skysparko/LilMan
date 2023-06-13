@@ -34,6 +34,7 @@ import {Models} from 'appwrite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IntroScreen from './components/Intro';
 import Main from './components/auth/Main';
+import Loader from './components/Loader';
 
 //Param Types of Components
 export type RootStackParamList = {
@@ -61,12 +62,14 @@ const App = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(true);
 
   useEffect(() => {
     // Check user's login status
 
     const checkLoginStatus = async () => {
       try {
+        setIsRefreshing(true);
         const res = await account.get();
         if (refreshData) {
           getUserTasks(res.$id).then(data => {
@@ -94,6 +97,9 @@ const App = () => {
         }
       })
       .catch(() => {});
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
   }, [isAuthenticated, isLoading, refreshData]);
 
   useEffect(() => {
@@ -121,57 +127,61 @@ const App = () => {
       {isLoading ? (
         <Image source={require('./assets/images/splashScreen.png')} />
       ) : isAuthenticated ? (
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={({route}) => ({
-            tabBarIcon: ({focused, color, size}) => {
-              let iconName;
+        isRefreshing ? (
+          <Loader />
+        ) : (
+          <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName;
 
-              if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline';
-              } else if (route.name === 'Manage') {
-                iconName = focused ? 'calendar' : 'calendar-outline';
-              } else if (route.name === 'Create') {
-                iconName = focused ? 'create' : 'create-outline';
-              }
-              return IconComponent({iconName: iconName!, color, size});
-            },
-            tabBarActiveBackgroundColor: '#E6E6FA',
-            tabBarActiveTintColor: 'rgb(108, 0, 255)',
-            tabBarInactiveTintColor: 'gray',
-            tabBarShowLabel: false,
-            headerShown: false,
-          })}>
-          <Tab.Screen name="Home">
-            {props => (
-              <Home
-                {...props}
-                setRefreshData={setRefreshData}
-                setTasks={setTasks}
-                setIsAuthenticated={setIsAuthenticated}
-                user={user}
-                tasks={tasks!}
-                totalTasks={totalTasks}
-              />
-            )}
-          </Tab.Screen>
-          <Tab.Screen name="Manage">
-            {props => (
-              <Manage
-                {...props}
-                setRefreshData={setRefreshData}
-                setTasks={setTasks}
-                setIsAuthenticated={setIsAuthenticated}
-                user={user}
-                tasks={tasks!}
-                totalTasks={totalTasks}
-              />
-            )}
-          </Tab.Screen>
-          <Tab.Screen name="Create">
-            {props => <Create {...props} setRefreshData={setRefreshData} />}
-          </Tab.Screen>
-        </Tab.Navigator>
+                if (route.name === 'Home') {
+                  iconName = focused ? 'home' : 'home-outline';
+                } else if (route.name === 'Manage') {
+                  iconName = focused ? 'calendar' : 'calendar-outline';
+                } else if (route.name === 'Create') {
+                  iconName = focused ? 'create' : 'create-outline';
+                }
+                return IconComponent({iconName: iconName!, color, size});
+              },
+              tabBarActiveBackgroundColor: '#E6E6FA',
+              tabBarActiveTintColor: 'rgb(108, 0, 255)',
+              tabBarInactiveTintColor: 'gray',
+              tabBarShowLabel: false,
+              headerShown: false,
+            })}>
+            <Tab.Screen name="Home">
+              {props => (
+                <Home
+                  {...props}
+                  setRefreshData={setRefreshData}
+                  setTasks={setTasks}
+                  setIsAuthenticated={setIsAuthenticated}
+                  user={user}
+                  tasks={tasks!}
+                  totalTasks={totalTasks}
+                />
+              )}
+            </Tab.Screen>
+            <Tab.Screen name="Manage">
+              {props => (
+                <Manage
+                  {...props}
+                  setRefreshData={setRefreshData}
+                  setTasks={setTasks}
+                  setIsAuthenticated={setIsAuthenticated}
+                  user={user}
+                  tasks={tasks!}
+                  totalTasks={totalTasks}
+                />
+              )}
+            </Tab.Screen>
+            <Tab.Screen name="Create">
+              {props => <Create {...props} setRefreshData={setRefreshData} />}
+            </Tab.Screen>
+          </Tab.Navigator>
+        )
       ) : showIntro ? (
         <IntroScreen setShowIntro={setShowIntro} />
       ) : (

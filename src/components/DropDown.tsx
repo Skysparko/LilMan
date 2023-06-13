@@ -17,13 +17,6 @@ type Props = {
 };
 
 const DropdownMenu = ({isVisible, setIsVisible, setIsAuthenticated}: Props) => {
-  // const handleOptionSelect = (option: string) => {
-  //   // Perform actions based on the selected option
-  //   console.log('Selected option:', option);
-  //   // Hide the dropdown
-  //   setIsVisible(false);
-  // };
-
   return (
     <View style={styles.container}>
       <Modal visible={isVisible} transparent={true} animationType="fade">

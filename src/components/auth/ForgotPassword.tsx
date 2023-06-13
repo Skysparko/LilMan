@@ -18,41 +18,39 @@ const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            <Text style={styles.title}>Forgot Password?</Text>
-            <Image source={mainImage} style={styles.image} />
-            <Text style={styles.description}>
-              Don't worry ,Enter your email address to reset your password.
-            </Text>
-          </View>
-          <View style={styles.form}>
-            <TextInput
-              onFocus={() => setInputFocus(true)}
-              onBlur={() => setInputFocus(false)}
-              style={[styles.input, inputFocus && styles.inputFocused]}
-              placeholder="Email"
-              placeholderTextColor={'#8a8a8a'}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            {isLoading ? (
-              <View style={styles.button}>
-                <Button title="Submitting..." />
-              </View>
-            ) : (
-              <View style={styles.button}>
-                <Button
-                  title="Submit"
-                  onPress={() => forgotPassword(email, setIsLoading)}
-                />
-              </View>
-            )}
-          </View>
+    <SafeAreaView style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.imageContainer}>
+          <Text style={styles.title}>Forgot Password?</Text>
+          <Image source={mainImage} style={styles.image} />
+          <Text style={styles.description}>
+            Don't worry ,Enter your email address to reset your password.
+          </Text>
+        </View>
+        <View style={styles.form}>
+          <TextInput
+            onFocus={() => setInputFocus(true)}
+            onBlur={() => setInputFocus(false)}
+            style={[styles.input, inputFocus && styles.inputFocused]}
+            placeholder="Email"
+            placeholderTextColor={'#8a8a8a'}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          {isLoading ? (
+            <View style={styles.button}>
+              <Button title="Submitting..." />
+            </View>
+          ) : (
+            <View style={styles.button}>
+              <Button
+                title="Submit"
+                onPress={() => forgotPassword(email, setIsLoading)}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -62,8 +60,10 @@ const ForgotPassword = () => {
 export default ForgotPassword;
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  mainContainer: {
     flex: 1,
+  },
+  imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     gap: 30,
@@ -89,11 +89,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginVertical: 50,
+    justifyContent: 'center',
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 250,
+    width: 250,
+
     alignSelf: 'center',
   },
   input: {
