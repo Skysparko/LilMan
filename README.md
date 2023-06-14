@@ -21,10 +21,10 @@ https://youtu.be/yYP6eUr2DuA
 
 ## ScreenShots
 
-![Screenshot_1686723662](https://github.com/Skysparko/LilMan/assets/49132205/680dbdc0-422f-43ea-8018-74d5de460287)
-![Screenshot_1686723707](https://github.com/Skysparko/LilMan/assets/49132205/b2438108-9d02-457c-8da3-b4e3b6aea5b3)
-![Screenshot_1686723943](https://github.com/Skysparko/LilMan/assets/49132205/800c753e-5e62-4de8-b204-de15e256bf46)
-![Screenshot_1686723630](https://github.com/Skysparko/LilMan/assets/49132205/48b7c989-7cec-46f9-be7b-b13001cd9fad)
+![1 mainScreen](https://github.com/Skysparko/LilMan/assets/49132205/befa5191-ed51-42d3-b260-16e4f6a4e0c9)
+![2 LoginScreen](https://github.com/Skysparko/LilMan/assets/49132205/cd490bc3-2766-4b4d-b8ef-c638b578b64d)
+![3 HomeScreen](https://github.com/Skysparko/LilMan/assets/49132205/84a0d0ea-182d-4a77-aedc-414ffbf817d8)
+![4 ManageScreen](https://github.com/Skysparko/LilMan/assets/49132205/185dc226-fa90-4c54-be16-eec08bc86e18)
 
 
 ## Run Locally
